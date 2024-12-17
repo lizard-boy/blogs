@@ -10,7 +10,9 @@ metaDescription: 'Comprehensive comparison of Cursor and Sourcegraph Cody, explo
 canonicalUrl: ''
 ---
 
-As AI-powered development tools continue to reshape how we write code, Cursor and Sourcegraph Cody stand out as two prominent solutions in the market. Both tools offer advanced AI-powered code assistance, but while Cursor focuses on being a complete VS Code-based editor with integrated AI capabilities, Cody takes a more platform-agnostic approach with broader IDE support. This comparison will help you understand the key differences and make an informed decision for your development needs.
+As AI-powered developer tools continue to reshape how we write code, [Cursor](https://www.cursor.com/) and [Sourcegraph Cody](https://sourcegraph.com/) stand out as two prominent solutions in the market. Both offer advanced AI-powered code completion, but while Cursor focuses on being a complete VS Code-based editor with integrated AI capabilities, Cody takes a more platform-agnostic approach with broader IDE support. 
+
+This comparison will help you understand the key differences and make an informed decision for your development needs.
 
 ## Feature Comparison
 
@@ -29,7 +31,7 @@ As AI-powered development tools continue to reshape how we write code, Cursor an
    ['JetBrains Support', '✗', '✓'],
    ['NVIM Support', '✗', '✗'],
    ['Models Supported', 'GPT-4, Claude, Custom', 'GPT-4, Claude, Custom'],
-   ['Pricing', 'Free tier + Pro $20/mo', 'Free tier + Pro $9/mo']
+   ['Pricing', 'Free Hobby Tier + Pro $20/mo + Business $40/user/mo', 'Free + Pro $9/mo + Enterprise $19/user/mo']
 ]
 
 ## Code Completion
@@ -38,7 +40,7 @@ As AI-powered development tools continue to reshape how we write code, Cursor an
 Cursor provides robust code completion through its Cursor Tab feature, offering multi-line suggestions and modifications to existing code. The system can understand context from recent changes and linter errors, allowing developers to partially accept suggestions using keyboard shortcuts. The completion system is deeply integrated into the editor, providing 2,000 free suggestions for hobby users and unlimited completions for Pro users.
 
 ### Cody
-Sourcegraph Cody's code completion is designed to work across multiple IDEs, focusing on maintaining consistent coding patterns and reducing common errors. It provides context-aware suggestions based on your entire codebase, helping developers write code faster while ensuring consistency with existing patterns. The system is particularly strong in understanding multi-repository contexts in enterprise environments.
+Sourcegraph Cody's code completion is designed to work across multiple IDEs, focusing on maintaining consistent coding patterns and reducing common errors. It provides context-aware suggestions based on your entire codebase, helping developers write code faster, while ensuring consistency with existing patterns. The system is particularly strong in understanding multi-repository contexts in enterprise environments.
 
 ## AI Chat Capabilities
 
@@ -54,7 +56,7 @@ Cody's chat interface emphasizes codebase context awareness, allowing developers
 Cursor employs automatic indexing of codebases with embeddings-based search for accurate code references. The system allows customizable indexing rules via .cursorignore and maintains a privacy-focused design without storing plaintext code. The context awareness extends to terminal integration and recent code changes.
 
 ### Cody
-Cody excels in context awareness with multiple retrieval methods including Keyword Search, Sourcegraph Search API, and Code Graph analysis. It supports cross-repository context in enterprise environments and offers sophisticated context window management with configurable sizes and token limits. The system can understand relationships between different parts of the codebase and provide relevant suggestions.
+Cody excels in context awareness with multiple retrieval methods, including Keyword Search, Sourcegraph Search API, and Code Graph analysis. It supports cross-repository context in enterprise environments and offers sophisticated context window management with configurable sizes and token limits. The system can understand relationships between different parts of the codebase and provide relevant suggestions.
 
 ## Privacy and Security
 
@@ -67,37 +69,44 @@ Cody offers enterprise-grade security controls with repository-level permissions
 ## Pricing
 
 ### Cursor
-- **Hobby (Free)**
-  - 14-day Pro trial
-  - 50 slow premium model uses
-  - 200 cursor-small uses
-  - 2,000 completions
-- **Pro ($20/month)**
-  - 500 fast premium model uses per month
-  - Unlimited slow premium model uses
-  - Unlimited cursor-small uses
+- **Hobby**
+  - Free for individual users
+  - Pro two week trial
+  - 2000 completions
+  - 50 slow premium requests
+- **Pro**
+  - $20 per month
   - Unlimited completions
-  - 10 Claude Opus uses per month
-- **Business (Custom pricing)**
-  - All Pro features
-  - Team management features
-  - Advanced administration tools
+  - 500 fast premium requests
+  - Unlimited slow premium requests
+  - 10 o1-mini uses per day
+ - **Business**
+  - $40 per user, per month
+  - Enforce privacy mode org-wide
+  - Centralized team billing
+  - Admin dashboard with usage stats
+  - SAML/OIDC SSO
 
 ### Sourcegraph Cody
-- **Free/Pro Tier**
+- **Free Tier**
+  - Free for individual users
   - Single repository access
   - Basic IDE integration
   - Essential code completion
-  - Standard chat functionality
-- **Enterprise (Custom pricing)**
+- **Pro Tier**
+  - $9 per month
+  - Unlimited chat and commands
+  - More powerful LLMs for chat
+  - Support with limited SLAs
+- **Enterprise Tier**
+  - $19 per user, per month
   - Multi-repository support
-  - Enhanced security features
+  - Enhanced features across all IDEs
   - Team collaboration capabilities
   - Custom deployment options
-  - Full codebase context search
 
 ## Conclusion
 
-Cursor and Sourcegraph Cody represent two different approaches to AI-powered development assistance. Cursor provides a more integrated experience as a complete VS Code-based editor with powerful AI features, making it an excellent choice for individual developers and smaller teams who primarily use VS Code. Its pricing structure is more transparent, and it offers a robust free tier with clear upgrade paths.
+Cursor and Sourcegraph Cody represent two different approaches to AI-powered development assistance. Cursor provides a more integrated experience as a complete VS Code-based editor with powerful AI features, making it an excellent choice for individual developers and smaller teams who primarily use VS Code. 
 
-Sourcegraph Cody, on the other hand, excels in enterprise environments with its multi-repository support and broader IDE integration options. It's particularly valuable for large organizations that need to manage code across multiple repositories and require enhanced security features. While its pricing is less transparent and more focused on enterprise customers, its platform-agnostic approach and advanced context awareness features make it a compelling choice for larger development teams.
+Sourcegraph Cody, on the other hand, excels in enterprise environments with its multi-repository support and broader IDE integration options. It's particularly valuable for large organizations that need to manage code across multiple repositories and require enhanced security features. Being more focused on enterprise customers, its platform-agnostic approach and advanced context awareness features make it a compelling choice for larger development teams.
