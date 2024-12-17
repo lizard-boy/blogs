@@ -10,7 +10,9 @@ metaDescription: 'Comprehensive comparison of GitHub Copilot and Sourcegraph Cod
 canonicalUrl: ''
 ---
 
-As AI-powered development tools continue to reshape how we write code, GitHub Copilot and Sourcegraph Cody stand out as two prominent solutions in the market. Both tools offer sophisticated code completion and AI assistance, but they differ significantly in their approach to context handling and enterprise features. This comparison will help you understand the key differences and make an informed decision for your development needs.
+As AI-powered developer tools continue to reshape how we write code, [GitHub Copilot](https://github.com/home) and [Sourcegraph Cody](https://sourcegraph.com/) stand out as two prominent solutions in the market. Both offer sophisticated code completion and AI assistance, but they differ significantly in their approach to context handling and enterprise features. 
+
+This comparison will help you understand the key differences and make an informed decision for your development needs.
 
 ## Feature Comparison
 
@@ -29,13 +31,13 @@ As AI-powered development tools continue to reshape how we write code, GitHub Co
     ['JetBrains Support', '✓', '✓'],
     ['NVIM Support', '✓', '✗'],
     ['Models Supported', 'GPT-4, Custom Models', 'GPT-4, Claude, Custom'],
-    ['Pricing', 'Individual $10/mo, Business $19/mo, Enterprise', 'Free tier + Pro $9/mo']
+    ['Pricing', 'Free + Team $4/user/mo + Enterprise $21/user/mo', 'Free + Pro $9/mo + Enterprise $19/user/mo']
 ]
 
 ## Code Completion
 
 ### GitHub Copilot
-GitHub Copilot offers real-time code suggestions as you type, providing whole-line and full-function completions across multiple programming languages. Its strength lies in understanding context from your codebase and providing inline suggestions that maintain consistency with your coding style. The tool excels at repetitive code patterns and can convert comments to functional code.
+GitHub Copilot offers real-time code suggestions as you type, providing whole-line and full-function completions across multiple programming languages. Its strength lies in understanding context from your codebase and providing inline suggestions that maintain consistency with your coding style. The tool also excels at repetitive code patterns and can convert comments to functional code.
 
 ### Sourcegraph Cody
 Sourcegraph Cody provides context-aware code completion with a focus on maintaining consistency with existing codebases. It leverages multiple context retrieval methods, including Keyword Search and Code Graph analysis, to provide more accurate suggestions. The tool is particularly strong in understanding repository-wide patterns and generating style-consistent code.
@@ -46,7 +48,7 @@ Sourcegraph Cody provides context-aware code completion with a focus on maintain
 GitHub Copilot's chat functionality is available directly in IDEs, through GitHub.com, and via mobile apps. It offers natural language coding assistance, code explanations, debugging help, and architecture suggestions. The chat interface can handle complex queries and provide detailed explanations of code functionality.
 
 ### Sourcegraph Cody
-Cody's chat interface is deeply integrated with its context understanding capabilities. It features an @-mention system for adding specific context from files, symbols, and repositories. The chat can handle multi-file context for complex queries and provides intelligent responses based on comprehensive codebase analysis.
+Cody's chat interface is deeply integrated with its context understanding capabilities. It features an @-mention system for adding specific context from files, symbols, and repositories. The chat can handle multi-file context for complex queries, and provides intelligent responses based on comprehensive codebase analysis.
 
 ## Context Awareness
 
@@ -67,28 +69,49 @@ Cody provides enterprise-grade security controls with scalable infrastructure an
 ## Pricing
 
 ### GitHub Copilot
-- **Individual Plans**
-  - Monthly subscription: $10/month
-  - Annual subscription: $100/year
-  - Free for verified students and educators
-- **Business Plans**
-  - Enterprise pricing available upon request
-  - Team subscriptions with advanced features
-  - Volume licensing options
+- **Free Plan**
+  - Free for individual users
+  - Unlimited public/private repositories
+  - Automatic security and version updates
+  - 2000 CI/CD minutes per month
+  - 500MB of Packages storage
+- **Team Plan**
+  - $4 per user, per month
+  - Access to GitHub Codespaces 
+  - Protected branches
+  - 3000 CI/CD minutes per month
+  - 2GB of Packages storage
+- **Enterprise Plan**
+  - $21 per user, per month
+  - Data residency 
+  - Enterprise managed users
+  - 50,000 CI/CD minutes per month
+  - 50GB of Packages storage
+
 
 ### Sourcegraph Cody
-- **Free/Pro Tier**
-  - Basic IDE integration
+- **Free Tier**
+  - Free for individual users
   - Single repository access
-  - No credit card required
+  - Basic IDE integration
+  - Essential code completion
+- **Pro Tier**
+  - $9 per month
+  - Unlimited chat and commands
+  - More powerful LLMs for chat
+  - Support with limited SLAs
 - **Enterprise Tier**
-  - Custom pricing based on team size
-  - Full feature access
+  - $19 per user, per month
   - Multi-repository support
-  - Enhanced security features
+  - Enhanced features across all IDEs
+  - Team collaboration capabilities
+  - Custom deployment options
+
 
 ## Conclusion
 
-GitHub Copilot and Sourcegraph Cody each offer compelling features for AI-assisted development, but they target slightly different use cases. GitHub Copilot excels in individual developer productivity with its seamless IDE integration, terminal support, and robust real-time completions. Its pricing model and feature set make it particularly attractive for individual developers and smaller teams.
+GitHub Copilot and Sourcegraph Cody each offer compelling features for AI-assisted development, but they target slightly different use cases. With its seamless IDE integration, terminal support, and robust real-time completions, GitHub Copilot excels in individual developer productivity. Its pricing model and feature set make it particularly attractive for individual developers and smaller teams.
 
-Sourcegraph Cody, on the other hand, shines in enterprise environments with its comprehensive context understanding, multi-repository support, and advanced security features. Its free tier makes it accessible for trying out AI-assisted development, while its enterprise features cater to large-scale development operations. The choice between the two will largely depend on your specific needs regarding repository access, team size, and security requirements.
+Sourcegraph Cody, on the other hand, shines in enterprise environments with its comprehensive context understanding, multi-repository support, and advanced security features. Its free tier makes it accessible for trying out AI-assisted development, while its enterprise features cater to large-scale development operations. 
+
+Ultimately, the choice between the two will largely depend on your specific needs regarding repository access, team size, and security requirements.
