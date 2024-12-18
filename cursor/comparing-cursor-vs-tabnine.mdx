@@ -16,7 +16,45 @@ This comparison will help you understand the key differences and make an informe
 
 ## Feature Comparison
 
-[
+<table style={{
+  borderCollapse: 'collapse',
+  width: '100%',
+  margin: '2rem 0',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  fontSize: '0.95rem',
+  lineHeight: '1.5'
+}}>
+  <thead>
+    <tr>
+      <th style={{
+        backgroundColor: '#f8fafc',
+        padding: '1rem',
+        textAlign: 'left',
+        borderBottom: '1px solid #e2e8f0',
+        fontWeight: '600',
+        color: '#1a202c'
+      }}>Feature</th>
+      <th style={{
+        backgroundColor: '#f8fafc',
+        padding: '1rem',
+        textAlign: 'center',
+        borderBottom: '1px solid #e2e8f0',
+        fontWeight: '600',
+        color: '#1a202c'
+      }}>Cursor</th>
+      <th style={{
+        backgroundColor: '#f8fafc',
+        padding: '1rem',
+        textAlign: 'center',
+        borderBottom: '1px solid #e2e8f0',
+        fontWeight: '600',
+        color: '#1a202c'
+      }}>Tabnine</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[
    ['Terminal integration', '✓', '✗'],
    ['Tab completion', '✓', '✓'],
    ['Language agnostic', '✓', '✓'],
@@ -32,7 +70,35 @@ This comparison will help you understand the key differences and make an informe
    ['NVIM Support', '✗', '✓'],
    ['Models Supported', 'GPT-4, Claude, Custom', 'Universal and Custom Models'],
    ['Pricing', 'Free Hobby Tier + Pro $20/mo + Business $40/user/mo', 'Dev $9/mo + Enterprise $30/user/mo']
-]
+].map((row, i) => (
+      <tr key={i} style={{ 
+        backgroundColor: 'white',
+        transition: 'background-color 0.2s'
+      }}>
+        <td style={{
+          padding: '1rem',
+          borderBottom: '1px solid #e2e8f0',
+          fontWeight: '500',
+          backgroundColor: '#f8fafc'
+        }}>{row[0]}</td>
+        <td style={{
+          padding: '1rem',
+          borderBottom: '1px solid #e2e8f0',
+          textAlign: 'center',
+          color: row[1] === '✓' ? '#22c55e' : row[1] === '✗' ? '#ef4444' : '#1a202c',
+          fontSize: (row[1] === '✓' || row[1] === '✗') ? '1.5rem' : '0.95rem'
+        }}>{row[1]}</td>
+        <td style={{
+          padding: '1rem',
+          borderBottom: '1px solid #e2e8f0',
+          textAlign: 'center',
+          color: row[2] === '✓' ? '#22c55e' : row[2] === '✗' ? '#ef4444' : '#1a202c',
+          fontSize: (row[2] === '✓' || row[2] === '✗') ? '1.5rem' : '0.95rem'
+        }}>{row[2]}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
 ## Code Completion
 
