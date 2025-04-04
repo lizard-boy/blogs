@@ -1,0 +1,208 @@
+---
+title: 'AI Code Review: OpenAI o3-mini vs DeepSeek R1 Distill Llama for Bug Detection'
+publishedAt: '2025-04-04'
+author: 'Daksh Gupta'
+image: '/o3-mini-vs-R1-distill.png'
+summary: 'We tested OpenAI o3-mini and DeepSeek R1 Distill Llama on their ability to detect subtle bugs across five programming languages. Here’s what we found.'
+keywords: 'ai code review, bug detection, openai o3-mini, deepseek r1, software verification, reasoning models'
+metaTitle: 'OpenAI o3-mini vs DeepSeek R1: Which LLM Catches More Bugs? | Greptile'
+metaDescription: 'We benchmarked OpenAI o3-mini and DeepSeek R1 Distill Llama on subtle bug detection across Python, Go, TypeScript, Rust, and Ruby. The results were surprisingly close.'
+canonicalUrl: 'https://www.greptile.com/blog/o3-mini-vs-R1-distill'
+category: tools
+---
+
+Bug detection is one of the hardest applications for LLMs. It requires logic, understanding, and often some imagination — not just pattern recognition. In this post, we compare two capable models in this space: **OpenAI’s o3-mini** and **DeepSeek’s R1 Distill Llama**, both tested on the same dataset of subtle, realistic bugs.
+
+The goal? See which model performs better across a variety of programming languages, and more importantly, where and why they succeed or fail.
+
+## 🧪 How We Tested
+
+We evaluated both models on 210 hand-crafted programs, each containing a subtle but realistic bug. These bugs are hard by design — the kind that get through CI, sneak past linters, and still end up in production.
+
+We wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 Results
+
+Here’s how the two models performed across languages:
+
+- **Go**:  
+  - DeepSeek: 6 bugs  
+  - o3-mini: 7 bugs
+
+- **Python**:  
+  - DeepSeek: 4 bugs  
+  - o3-mini: 7 bugs
+
+- **TypeScript**:  
+  - DeepSeek: 9 bugs  
+  - o3-mini: 7 bugs
+
+- **Rust**:  
+  - DeepSeek: 9 bugs  
+  - o3-mini: 9 bugs
+
+- **Ruby**:  
+  - DeepSeek: 9 bugs  
+  - o3-mini: 7 bugs
+
+**Overall**, both models discovered **37 bugs** out of 210. It’s a tie — but not an even one.
+
+While the total number is the same, the **distribution** tells a deeper story. DeepSeek excelled in Ruby and TypeScript. OpenAI o3-mini dominated in Python and Go. Rust was the one language where both models held their own.
+
+## 🧠 Takeaways
+
+The results show that bug detection isn’t a uniform task — different languages stress different parts of a model’s capabilities.
+
+- **o3-mini** appears to benefit from strong training coverage in high-frequency languages like Python and Go. It’s likely better at pattern recognition and spotting idiomatic bugs that are common in production code.
+  
+- **DeepSeek**, on the other hand, stands out in Ruby and TypeScript — languages that may have spottier training coverage. Its performance suggests strong reasoning and generalization ability, especially where pattern-based learning starts to break down.
+
+This diversity in performance highlights the need for adaptive AI code review — the best model might depend on your stack.
+
+## 🧩 A Bug Worth Highlighting
+
+One of the more surprising moments came in **Test #2**, from a Go smart home system.
+
+The bug involved a **race condition** in the `NotifyDeviceUpdate` method — state was being modified and broadcasted without synchronization. Classic concurrency hazard.
+
+- **DeepSeek caught it.**  
+- **o3-mini missed it.**
+
+DeepSeek’s output:  
+> "There is no locking around device updates before broadcasting, which could lead to race conditions where clients receive stale or partially updated device state."
+
+This is exactly the kind of issue that benefits from **reasoning** over memorization. DeepSeek inferred not just what the code was doing, but what could go wrong — and why.
+
+## ✅ Final Thoughts
+
+Both models are strong. But they’re strong in **different ways**:
+
+- **OpenAI o3-mini** excels where training coverage and pattern recognition are enough — especially in Python and Go.
+- **DeepSeek R1 Distill Llama** thrives in cases that require general reasoning and inference — especially in Ruby, TypeScript, and concurrency-heavy logic.
+
+If you're building AI-powered code review, your choice of model might depend on your stack — and the kinds of bugs you're most worried about.
+
+---
+Greptile uses models like o3-mini and DeepSeek in production to catch real bugs in real codebases. Want to try it on your repo? [Try Greptile](https://www.greptile.com) — no credit card required.

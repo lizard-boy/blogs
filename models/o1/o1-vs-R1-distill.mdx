@@ -1,0 +1,203 @@
+---
+title: 'DeepSeek R1-distill vs OpenAI o1: Which AI Model Finds More Bugs?'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-R1-distill.png'
+summary: 'We benchmark DeepSeek’s R1-distill and OpenAI’s o1 on their ability to detect real-world bugs across multiple programming languages. One model clearly comes out ahead.'
+keywords: 'deepseek r1, openai o1, ai code review, bug detection, reasoning llm, software verification, ai bug finder'
+metaTitle: 'DeepSeek R1-distill vs OpenAI o1: Which AI Finds More Bugs? | Greptile'
+metaDescription: 'Comparing DeepSeek R1-distill and OpenAI o1 in detecting subtle, real-world bugs across Python, Go, Rust, Ruby, and TypeScript. Which AI is better for code review?'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-R1-distill'
+category: tools
+---
+
+## 🧠 Introduction
+
+Large language models are starting to play a bigger role in software development—not just for generating code, but for reviewing it. One of the hardest and most valuable tasks they can assist with is **bug detection**: finding logic flaws that slip past linters, tests, and even human eyes.
+
+In this post, we compare two models: **DeepSeek R1-distill** and **OpenAI o1**, to see how well they detect subtle, real-world bugs in code. The goal is simple: which model catches more issues, and in which languages do they shine?
+
+
+## 🧪 The Evaluation Dataset
+
+I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+## 📊 Results
+
+Across the full set of 210 files:
+
+- **OpenAI o1** correctly identified **15 bugs**
+- **DeepSeek R1-distill** found **37 bugs**
+
+These aren't huge numbers—but that’s expected. The bugs were intentionally hard to catch. What matters is the relative performance, and here, DeepSeek showed a clear edge.
+
+### Language-Level Insights
+
+- **Python:**  
+  DeepSeek caught 4 bugs; o1 only found 2. In multiple cases, o1 struggled with async-related logic, while DeepSeek was able to reason through the control flow more effectively.
+
+- **TypeScript:**  
+  DeepSeek found 9 bugs; o1 caught 4. This gap suggests better handling of TypeScript’s strict typing and structural complexity on DeepSeek’s part.
+
+- **Go:**  
+  DeepSeek flagged 6 bugs; o1 found 2. Go’s concurrency model often requires deeper reasoning—something R1-distill seems better equipped to handle.
+
+- **Rust:**  
+  DeepSeek uncovered 9 bugs versus o1’s 3. Both models had a hard time with Rust’s strict compile-time checks, but DeepSeek still had the advantage.
+
+- **Ruby:**  
+  DeepSeek again led, catching 9 bugs compared to o1’s 4. Ruby’s metaprogramming and dynamic typing present challenges, but R1-distill managed to reason through several of them more effectively.
+
+## 💡 Observations
+
+What stood out is that **DeepSeek’s lead widened in less commonly used or more complex languages**. That suggests its architecture—or possibly its training data—allows for stronger reasoning where surface-level pattern recognition fails.
+
+While o1 is marketed as a reasoning model, DeepSeek’s output often showed a more methodical thought process, particularly in logic-heavy or stateful scenarios.
+
+## 🕵️ Example: Race Condition in a Smart Home System
+
+One telling example came from a Go-based smart home notification service.
+
+The bug involved a race condition: device updates were being broadcast without locking, which could result in inconsistent device states being shared with clients.
+
+DeepSeek's response began with:
+
+> “\<think> Okay, so I'm trying to figure out the most critical bug in this code...”
+
+And went on to reason through the code's flow, correctly identifying the lack of synchronization around device state changes.
+
+OpenAI o1 missed the issue entirely.
+
+This kind of bug isn’t obvious from structure alone—it requires a mental simulation of how the code would run. That’s exactly the kind of problem reasoning models are meant to solve.
+
+## 🧩 Final Thoughts
+
+DeepSeek R1-distill outperformed OpenAI o1 in every language we tested, and by a wide margin overall. While neither model is close to perfect, these results suggest that DeepSeek’s reasoning capabilities are more effective—especially in spotting non-trivial bugs in more complex or less mainstream languages.
+
+As AI code reviewers continue to evolve, we expect newer models like R1-distill to play an increasingly important role in real-world software verification. They're not replacing human reviewers yet—but they're becoming powerful allies.
+
+---
+
+Curious how this works on your codebase?  
+👉 [Try Greptile for AI-powered code review](https://www.greptile.com/)

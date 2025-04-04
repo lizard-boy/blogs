@@ -1,0 +1,201 @@
+---
+title: 'OpenAI o1 vs Meta Llama-3.3 70B: Which Model Detects More Bugs?'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-llama3.3-70B.png'
+summary: 'We evaluated OpenAI o1 and Meta Llama-3.3 70B across 210 real-world bugs in Python, Go, Rust, TypeScript, and Ruby. Here’s how they compare in bug detection performance.'
+keywords: 'AI code review, bug detection, llama-3.3, openai o1, software verification, reasoning models'
+metaTitle: 'AI Bug Detection: OpenAI o1 vs Meta Llama-3.3 70B | Greptile'
+metaDescription: 'We benchmarked OpenAI o1 and Meta Llama-3.3 70B across five programming languages to evaluate their ability to detect complex bugs. See which model performs better.'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-llama3.3-70B'
+category: tools
+---
+
+LLMs are often used to **generate** code—but what happens when you ask them to **review** it?
+
+Bug detection requires more than syntax awareness. It demands logic, reasoning, and the ability to identify what’s _missing_ in a block of code. In this benchmark, we tested two prominent models—**OpenAI o1** and **Meta Llama-3.3 70B**—on their ability to detect subtle bugs in real-world programs.
+
+
+## 🧪 The Evaluation Dataset
+
+I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+## 📊 Results
+
+**Total Bugs Detected**
+- **Meta Llama-3.3 70B**: 27  
+- **OpenAI o1**: 15
+
+### Detection Breakdown by Language
+
+- **Python**:  
+  - o1: 2  
+  - Llama-3.3 70B: 1  
+
+- **TypeScript**:  
+  - o1: 4  
+  - Llama-3.3 70B: 5  
+
+- **Go**:  
+  - o1: 2  
+  - Llama-3.3 70B: 3  
+
+- **Rust**:  
+  - Both: 3  
+
+- **Ruby**:  
+  - o1: 4  
+  - Llama-3.3 70B: 5  
+
+While OpenAI o1 slightly outperformed in Python, **Meta Llama-3.3 70B outscored o1 overall**, with consistent improvements in TypeScript, Ruby, and Go.
+
+## 💡 Interpretation
+
+The modest edge for Meta’s Llama-3.3 70B seems to stem from its **reasoning capabilities**. Pattern-based models like OpenAI o1 often succeed in high-data languages like Python, where bug structures are common and recognizable. But when deeper logic is required—especially for bugs that involve **concurrency**, **shared state**, or **multi-step inference**—Llama-3.3 70B tends to do better.
+
+Both models struggled in Rust, highlighting how difficult low-level correctness remains for general-purpose LLMs.
+
+## 🐞 A Bug Worth Highlighting
+
+### Test #2 — Python: Concurrency Edge Case
+
+A bug in a pathfinding implementation involved a shared `came_from` dictionary being mutated asynchronously during the execution of `reconstruction_path()`—causing potential corruption of the path output.
+
+- **Meta Llama-3.3 70B caught the bug**  
+- **OpenAI o1 missed it**
+
+**Llama’s output**:
+> "The code does not handle the case where `came_from` is modified concurrently during the reconstruction process, which can lead to inconsistent or incorrect path results."
+
+This is the kind of issue that requires **predicting asynchronous side effects**—not something that shows up with surface-level pattern matching.
+
+## ✅ Final Thoughts
+
+Both OpenAI o1 and Meta Llama-3.3 70B show promising bug detection ability. But when subtle logic or concurrency is involved, **Llama-3.3 70B’s reasoning edge becomes clear**.
+
+- Choose **Meta Llama-3.3 70B** if your bug detection needs span multiple languages or complex logic.
+- Choose **OpenAI o1** for simpler tasks or lightweight review use cases where speed and efficiency are key.
+
+---
+Greptile uses models like these to review PRs, spot bugs, and improve software quality before things break. Want to see what it finds in your codebase? [Try Greptile](https://www.greptile.com) — no credit card required.

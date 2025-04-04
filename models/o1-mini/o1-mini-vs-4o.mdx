@@ -1,0 +1,210 @@
+---
+title: 'AI Code Review: OpenAI o1-mini vs 4o in Bug Detection'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-mini-vs-4o.png'
+summary: 'We tested OpenAI’s o1-mini and 4o models across 210 real-world bugs to evaluate which is better at detecting complex logic errors, race conditions, and hidden defects.'
+keywords: 'ai code review, bug detection, openai o1-mini, openai 4o, software verification, reasoning models'
+metaTitle: 'Bug Detection Benchmark: OpenAI o1-mini vs 4o | Greptile'
+metaDescription: 'We evaluated OpenAI’s o1-mini and 4o across 210 real-world bugs in Python, Go, Rust, TypeScript, and Ruby to see which performs better at AI code review.'
+canonicalUrl: 'https://www.greptile.com/blog/o1-mini-vs-4o'
+category: tools
+---
+
+While AI models are increasingly capable of generating code, their ability to **detect real bugs** is a much harder test — one that requires understanding logic, control flow, and intent. In this post, we benchmark two models from OpenAI — **o1-mini** and **4o** — to evaluate how well they catch **hard bugs** across five programming languages.
+
+
+## 🧪 The Evaluation Dataset
+
+I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 Results
+
+**Overall Bugs Caught**
+- **o1-mini**: 11 bugs  
+- **4o**: 20 bugs
+
+That’s nearly a **2× improvement** with 4o over o1-mini.
+
+### By Language
+
+- **Go**:  
+  - o1-mini: 2  
+  - 4o: 4  
+
+- **Python**:  
+  - o1-mini: 2  
+  - 4o: 6  
+
+- **TypeScript**:  
+  - o1-mini: 1  
+  - 4o: 4  
+
+- **Rust**:  
+  - o1-mini: 2  
+  - 4o: 3  
+
+- **Ruby**:  
+  - o1-mini: 4  
+  - 4o: 3  
+
+While 4o outperformed o1-mini in most languages, **Ruby was the exception** — where o1-mini actually performed better.
+
+## 💡 Interpretation
+
+The results reveal a clear trend: **4o’s reasoning capabilities give it an edge** in detecting subtle bugs, especially in Python and TypeScript — languages where logic and context often matter more than syntax alone.
+
+- **o1-mini** does better when pattern recognition alone is enough — or when it happens to have better representation in training data, as may be the case with Ruby.
+- **4o** appears better equipped for **reasoning-first detection**, catching bugs that require planning and inference rather than just matching syntax or familiar patterns.
+
+That said, the Ruby result is interesting. o1-mini catching more bugs there may suggest:
+- Better memorization of common Ruby bug patterns  
+- More favorable tuning for Ruby's syntax  
+- Or simply noise due to low absolute bug counts
+
+In any case, 4o’s improvement across the board — even modestly in Rust and Go — suggests that **reasoning gives it broader generalization**.
+
+## 🐞 A Bug Worth Highlighting
+
+### Test #1 — Ruby: Audio Processing Logic Bug
+
+In the `TimeStretchProcessor` class of a Ruby audio library, a bug appeared in the `normalize_gain` calculation. The gain was fixed, rather than scaled based on the `stretch_factor`. This caused output amplitude to swing wildly depending on how much the sample was sped up or slowed down.
+
+- **o1-mini caught the bug**  
+- **4o missed it**
+
+This was one of the rare cases where **pattern recognition outperformed reasoning**. o1-mini likely recognized the bug from similar training patterns involving formula-based gain miscalculations.
+
+It’s a great reminder: **reasoning helps generalize**, but **pattern familiarity still matters** — especially for domain-specific or numerical errors.
+
+## ✅ Final Thoughts
+
+While both models have their strengths, **OpenAI 4o clearly performs better overall** for AI code review — especially for languages and bug types that benefit from logical deduction over rote memorization.
+
+- Use **4o** if you want better detection coverage across languages and logic-heavy bugs  
+- Use **o1-mini** if you want a lighter, faster model and can tolerate lower accuracy
+
+---
+Greptile uses models like 4o in production to review real pull requests and catch bugs before they hit production. Want to see how it works on your repo? [Try Greptile](https://www.greptile.com) — no credit card required.

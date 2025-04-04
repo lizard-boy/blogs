@@ -1,0 +1,197 @@
+---
+title: 'AI Code Review: OpenAI o3-mini vs 4o-mini for Bug Detection'
+publishedAt: '2025-04-04'
+author: 'Daksh Gupta'
+image: '/o3-mini-vs-4o-mini.png'
+summary: 'We benchmarked OpenAI’s o3-mini and 4o-mini models to evaluate their bug detection skills across Python, Go, Rust, TypeScript, and Ruby.'
+keywords: 'ai code review, bug detection, openai o3-mini, openai 4o-mini, llm comparison, software verification, reasoning models'
+metaTitle: 'AI Code Review: o3-mini vs 4o-mini — Which Model Catches More Bugs? | Greptile'
+metaDescription: 'We compared OpenAI’s o3-mini and 4o-mini on their ability to catch subtle bugs across five programming languages. The results may surprise you.'
+canonicalUrl: 'https://www.greptile.com/blog/o3-mini-vs-4o-mini'
+category: tools
+---
+
+OpenAI has been shipping increasingly capable small models lately — and two of its most interesting contenders for AI code review are **o3-mini** and **4o-mini**. Both are designed for lightweight reasoning tasks, but which one is better at finding *real bugs* in software?
+
+We tested them head-to-head across five programming languages to find out.
+
+## 🧪 How We Tested
+
+Our benchmark dataset consists of 210 programs, each seeded with a realistic bug. These aren’t easy-to-spot errors — they’re subtle logic flaws, concurrency issues, or semantic edge cases that might slip past linters, tests, and even human reviewers.
+
+The languages we evaluated: Python, Go, Rust, TypeScript, and Ruby. Both models were given the same prompt and context and asked to flag any bugs.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+## 📊 Results
+
+**Overall Performance**  
+- **o3-mini**: Caught 37 bugs  
+- **4o-mini**: Caught 19 bugs
+
+That’s nearly 2× better performance from o3-mini.
+
+**By Language**  
+- **Python**: o3-mini found 7, 4o-mini found 4  
+- **TypeScript**: o3-mini found 7, 4o-mini found 2  
+- **Go**: o3-mini found 7, 4o-mini found 3  
+- **Rust**: o3-mini found 9, 4o-mini found 4  
+- **Ruby**: o3-mini found 7, 4o-mini found 6
+
+The gap is consistent across all languages, though it's slightly narrower in Ruby.
+
+## 🧠 Why the Gap?
+
+There are a few plausible reasons o3-mini consistently outperformed 4o-mini:
+
+- **Planning and Reasoning**: o3-mini appears to be part of OpenAI’s reasoning-first model family, where generation is preceded by internal planning. That extra step often helps catch bugs that aren’t obvious pattern matches.
+
+- **Model Architecture**: It’s possible that o3-mini benefits from architectural tweaks or system-level optimizations that give it better performance in logic-heavy tasks like bug detection.
+
+- **Training Differences**: Both models were likely trained on overlapping data, but o3-mini might have had more targeted training around software-related reasoning or verification patterns.
+
+In contrast, 4o-mini, while fast and compact, may sacrifice some of that depth for speed or generality.
+
+## 🧩 Bug Highlight: Python Logic Collapse
+
+Here’s one bug that illustrates the difference in depth between the models.
+
+**Test 50: Search Endpoint Filter Collapse**
+
+In a Python script handling task search filters, there were two `$or` keys in the query dictionary. The second one overwrote the first, breaking the compound filtering logic.
+
+- **o3-mini's Output**:  
+  > "The function relies on having multiple `$or` conditions in the query dict, but the second overwrites the first. This results in user-based filtering being completely ignored, breaking the intended search behavior."
+
+- **4o-mini's Output**:  
+  > "The `$or` logic may not work as intended because the dictionary has duplicate keys."
+
+Both models identified the general issue — but o3-mini offered a much clearer understanding of the logical consequence. It didn’t just spot the key conflict; it explained why it *matters*.
+
+## ✅ Final Thoughts
+
+In this benchmark, **o3-mini was the clear winner**. It found more bugs, gave better explanations, and performed more consistently across all five languages.
+
+4o-mini still shows potential, especially in more surface-level issues or languages with high training coverage. But if your use case demands catching hard bugs — particularly the kind that sneak past pattern-matching — o3-mini is the better choice today.
+
+---
+Greptile runs models like o3-mini in production, automatically reviewing pull requests and catching bugs before they hit prod. Want to see what it finds in your code? [Try Greptile](https://www.greptile.com) — no credit card required.

@@ -1,0 +1,195 @@
+---
+title: 'Is OpenAI 4o Better Than o1 at Catching Bugs in Code?'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-4o.png'
+summary: 'We benchmark OpenAI’s o1 and 4o models on their ability to detect realistic software bugs across five programming languages. The results may surprise you.'
+keywords: 'openai 4o, openai o1, ai code review, bug detection, reasoning model, llm code analysis, software verification'
+metaTitle: 'OpenAI 4o vs o1: Which AI Model Catches More Bugs? | Greptile'
+metaDescription: 'A benchmark comparing OpenAI 4o and o1 on their ability to detect realistic bugs in code across Python, Go, TypeScript, Ruby, and Rust. Which LLM is better for AI code review?'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-4o'
+category: tools
+---
+
+## 🧠 Introduction
+
+We're building an AI code review tool that finds bugs and anti-patterns in pull requests. Since the quality of our reviews depends heavily on the underlying LLMs, we're constantly testing new models to see how well they detect real-world bugs.
+
+Bug detection is not the same as code generation. It requires a deeper understanding of logic, structure, and developer intent. It's not just about pattern matching—it's about reasoning.
+
+With the release of OpenAI’s 4o, we wanted to know: how does it compare to o1 in finding difficult bugs in code?
+
+## 🧪 How We Tested
+
+We curated a set of 210 small programs, each with a single subtle bug. The bugs were intentionally tricky—realistic enough for a professional developer to introduce, but hard to catch with linters, tests, or a quick skim.
+
+Each program was written in one of five languages: Python, TypeScript, Go, Rust, or Ruby.
+
+We prompted both o1 and 4o with each buggy file, then evaluated whether the model correctly identified the issue.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 What We Found
+
+Across all 210 files, o1 correctly identified 15 bugs. 4o found 20.
+
+That’s not a massive difference, but it’s consistent—and important. These bugs weren’t easy, and a few extra catches can mean the difference between a shipped bug and a clean PR.
+
+Here's what stood out:
+
+- **Python**: 4o outperformed o1, catching 6 bugs versus o1’s 2. This might be because Python’s dynamic nature demands more reasoning to spot non-obvious issues.
+  
+- **TypeScript**: Both models caught 4 bugs. The strong type system may make it easier for both models to detect surface-level issues.
+
+- **Go**: 4o found twice as many bugs as o1—4 compared to 2. Go’s concurrency model may benefit from 4o’s stronger logical reasoning.
+
+- **Rust**: Both models identified 3 bugs. Rust’s strict compiler and safety checks may flatten the differences here.
+
+- **Ruby**: Interestingly, o1 edged out 4o, catching 4 bugs to 4o’s 3. Sample variance could be a factor, or it might reflect differences in training data exposure.
+
+Despite o1 being a reasoning model, 4o showed better performance overall. That suggests 4o’s architecture or training data gives it an edge—not just in pattern recognition, but in logic inference too.
+
+## 🕵️ A Bug Only 4o Caught
+
+One of the most telling examples came from a small bug in a data partitioning method.
+
+In the `get_partition` function, the ROUND_ROBIN strategy used `random.randint(...)` instead of a true round-robin algorithm. That leads to uneven and unpredictable distribution of records across partitions—a logic error, not a syntax mistake.
+
+4o flagged it immediately. o1 missed it entirely.
+
+This kind of bug requires understanding the intent of a strategy, not just its implementation. It’s a great example of why reasoning matters for AI code review.
+
+## 🚀 Final Thoughts
+
+We’re still early in the evolution of AI for software verification. The fact that any model can find bugs like these—without tests or documentation—is pretty wild.
+
+But models like 4o are starting to push the boundaries. They’re not perfect, but they show clear signs of improvement: catching logic errors, handling subtle language features, and reasoning through non-obvious issues.
+
+As the tooling improves, we expect AI-assisted code review to shift from “nice-to-have” to mission-critical.
+
+And we're building for that future.
+
+---
+
+Want to see how models like 4o perform on your codebase?  
+👉 [Try Greptile for AI-powered code review](https://www.greptile.com/)

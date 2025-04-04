@@ -1,0 +1,217 @@
+---
+title: 'Bug Detection Showdown: OpenAI o1 vs o3-mini'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-o3-mini.png'
+summary: 'We tested OpenAI o1 and o3-mini on 210 tough bugs across five programming languages. Which AI model catches more real-world bugs? Here’s what we found.'
+keywords: 'ai code review, bug detection, openai o3-mini, openai o1, software verification, reasoning models'
+metaTitle: 'AI Code Review Benchmark: OpenAI o1 vs o3-mini | Greptile'
+metaDescription: 'How do OpenAI’s o1 and o3-mini models compare in real-world bug detection? We benchmarked them across Python, TypeScript, Go, Rust, and Ruby. The results are in.'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-o3-mini'
+category: tools
+---
+
+As AI continues to expand its reach in software engineering, a key frontier is bug detection. Generating code is one thing—but **catching real-world bugs** requires deeper reasoning, context awareness, and logic tracing.
+
+This post compares two models from OpenAI: the lightweight **o1**, and the reasoning-enhanced **o3-mini**, to see how well they detect complex bugs in real codebases.
+
+## 🧪 The Evaluation Setup
+
+We designed a benchmark of **210 buggy programs**, drawn from 16 real-world domains. Each program contained one subtle, realistic bug. Languages tested:
+
+- Python  
+- TypeScript  
+- Go  
+- Rust  
+- Ruby  
+
+
+## 🧪 The Evaluation Dataset
+
+I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+## 📊 Results
+
+**Total Bugs Caught**
+- **OpenAI o3-mini**: 37  
+- **OpenAI o1**: 15  
+
+### Detection by Language
+
+- **Python**:  
+  - o1: 2  
+  - o3-mini: 7  
+
+- **TypeScript**:  
+  - o1: 4  
+  - o3-mini: 7  
+
+- **Go**:  
+  - o1: 2  
+  - o3-mini: 7  
+
+- **Rust**:  
+  - o1: 3  
+  - o3-mini: 9  
+
+- **Ruby**:  
+  - o1: 4  
+  - o3-mini: 7  
+
+Across all five languages, o3-mini outperformed o1—sometimes by a wide margin.
+
+## 💡 Why o3-mini Wins
+
+The key difference? **Reasoning**.
+
+- **o3-mini** includes a structured planning step before generating responses. This helps it trace logic, evaluate intent, and surface bugs that go beyond syntax or pattern matching.
+- **o1**, while capable, relies more heavily on memorized patterns. It performs adequately in languages like TypeScript or Python where pattern-based bugs are common, but struggles when logical deduction is required.
+
+The gap widens in languages like Rust and Ruby, where o3-mini’s structured reasoning helps it generalize even with sparse training data.
+
+## 🐞 A Bug Worth Highlighting
+
+### Test #42 — Python: AttributeError in CSV Handling
+
+In this test, a function tried to determine the number of CSV rows using `rows.length` instead of Python’s correct `len(rows)`—a subtle but critical mistake.
+
+- **o3-mini caught the bug**  
+- **o1 missed it**
+
+**o3-mini’s output**:
+> "The code incorrectly uses `rows.length` instead of Python's `len(rows)` in `_load_csv_dataset`, which will raise an `AttributeError` when trying to determine the end index for slicing."
+
+This is the kind of bug that requires domain understanding, not just syntax familiarity. o3-mini recognized the language-specific error and explained its runtime consequences—something o1 failed to do.
+
+## ✅ Final Thoughts
+
+This benchmark shows a clear winner: **OpenAI o3-mini is significantly more effective at detecting real-world software bugs**.
+
+- Use **o3-mini** for reasoning-heavy reviews, especially in languages with tricky semantics or lower training coverage.
+- Use **o1** for lightweight validation or pattern-heavy codebases.
+
+As more AI tools aim to assist with real code reviews, structured reasoning will be the next big differentiator.
+
+---
+Greptile uses models like o3-mini to catch real bugs in PRs—logic flaws, concurrency issues, edge case crashes, and more. Curious what it would find in your codebase? [Try Greptile](https://www.greptile.com) — no credit card required.

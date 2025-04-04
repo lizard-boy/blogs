@@ -1,0 +1,85 @@
+---
+title: 'AI Code Review: OpenAI o1 vs Meta Llama-3.1 405B for Bug Detection'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-llama3.1-405B.png'
+summary: 'We benchmarked OpenAI o1 and Meta Llama-3.1 405B across 210 challenging bugs in Python, Go, Rust, TypeScript, and Ruby. Here’s how they compare in real-world bug detection.'
+keywords: 'ai code review, bug detection, llama-3.1, openai o1, reasoning models, software verification'
+metaTitle: 'Bug Detection Benchmark: OpenAI o1 vs Meta Llama-3.1 405B | Greptile'
+metaDescription: 'How do OpenAI o1 and Meta Llama-3.1 405B compare in detecting real-world software bugs? We tested them on 210 tricky cases. Here’s what we found.'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-llama3.1-405B'
+category: tools
+---
+
+As AI code generation improves, the next big question is: **can AI review code too?** Bug detection is fundamentally harder than generation—it requires **reasoning**, not just pattern recognition. In this post, we benchmark two compact LLMs—**OpenAI o1** and **Meta Llama-3.1 405B**—on their ability to catch subtle bugs in code across multiple languages.
+
+## 🧪 Evaluation Setup
+
+We tested both models on a benchmark of **210 programs** spanning sixteen domains, each with a carefully planted logic bug. Languages included: Python, TypeScript, Go, Rust, and Ruby.
+
+The task: find the bug, given code and context. No retries or special prompting.
+
+## 📊 Results
+
+**Overall Bugs Caught**
+- **Meta Llama-3.1 405B**: 24  
+- **OpenAI o1**: 15
+
+### By Language
+
+- **Python**:  
+  - Meta: 5  
+  - OpenAI: 2  
+
+- **TypeScript**:  
+  - Meta: 8  
+  - OpenAI: 4  
+
+- **Go**:  
+  - Meta: 5  
+  - OpenAI: 2  
+
+- **Rust**:  
+  - Meta: 1  
+  - OpenAI: 3  
+
+- **Ruby**:  
+  - Meta: 5  
+  - OpenAI: 4  
+
+Meta Llama-3.1 405B outperformed OpenAI o1 in **four out of five** languages—with **TypeScript** showing the largest margin. Only in Rust did OpenAI o1 slightly edge ahead.
+
+## 💡 Analysis
+
+The difference here comes down to **reasoning**.
+
+- **Meta’s Llama-3.1 405B** uses a planning step before responding—allowing it to trace logic, assess consequences, and catch bugs that aren't obvious from syntax alone.
+- **OpenAI o1**, while lighter and faster, depends more heavily on surface-level patterns—limiting its success when bugs involve complex logic or subtle misalignments.
+
+This shows clearly in Ruby and Go, where reasoning through flow and concurrency helps uncover hidden errors. In contrast, o1 did slightly better in Rust—suggesting that in some edge cases, a smaller, more direct model can still win with the right pattern memory.
+
+## 🐞 A Bug Worth Highlighting
+
+### Test #1 — Ruby: Gain Calculation in Audio Processing
+
+In the `TimeStretchProcessor` class of a Ruby audio library, a bug caused `normalize_gain` to be calculated using a fixed formula—ignoring the `stretch_factor`. This caused audio to be too loud or too quiet depending on speed.
+
+- **Meta Llama-3.1 405B caught it**  
+- **OpenAI o1 missed it**
+
+Meta’s reasoning:
+> "The gain should scale with the stretch_factor to preserve amplitude during speed changes. Using a fixed formula causes inconsistent output volume."
+
+This wasn’t just a syntax slip—it was a **semantic failure**. Meta succeeded by reasoning through intent and effect. OpenAI o1 missed the connection.
+
+## ✅ Final Thoughts
+
+**Meta’s Llama-3.1 405B consistently outperforms OpenAI o1** for bug detection—especially in languages and tasks that require logical deduction.
+
+- Choose **Llama-3.1 405B** if you're after better reasoning in your code reviews.
+- Choose **OpenAI o1** if you need speed and don’t mind lower bug detection coverage.
+
+As AI tooling continues to evolve, this benchmark suggests a future where **reasoning-first LLMs** will lead the charge in software verification.
+
+---
+Greptile uses models like these to review real PRs, flag real bugs, and keep your codebase clean. Curious what it can find in yours? [Try Greptile](https://www.greptile.com) — no credit card required.

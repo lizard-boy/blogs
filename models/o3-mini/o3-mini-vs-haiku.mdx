@@ -1,0 +1,193 @@
+---
+title: 'AI Code Review: OpenAI o3-mini vs Anthropic Haiku for Bug Detection'
+publishedAt: '2025-04-04'
+author: 'Daksh Gupta'
+image: '/o3-mini-vs-haiku.png'
+summary: 'We benchmarked OpenAI o3-mini and Anthropic Haiku to evaluate their bug detection performance across five programming languages.'
+keywords: 'ai code review, bug detection, llm comparison, openai o3-mini, anthropic haiku, software verification, reasoning models'
+metaTitle: 'AI Code Review: o3-mini vs Haiku for Bug Detection | Greptile'
+metaDescription: 'Which model is better for AI code reviews? We benchmarked OpenAI o3-mini and Anthropic Haiku on their ability to catch hard-to-spot bugs in Python, TypeScript, Go, Rust, and Ruby.'
+canonicalUrl: 'https://www.greptile.com/blog/o3-mini-vs-haiku'
+category: tools
+---
+
+Bug detection is fundamentally different from code generation. While codegen is often about producing syntactically and semantically correct output, bug detection requires understanding subtle flaws in logic, context, or behavior. It's harder — and arguably more valuable — especially as AI code review becomes more integrated into engineering workflows.
+
+With the rise of reasoning models like OpenAI’s o3-mini and Anthropic’s Haiku, we wanted to evaluate how well these models perform at identifying real-world bugs across a variety of programming languages.
+
+## 🧪 How We Tested
+
+We created a benchmark of 210 small programs, each with a single, difficult-to-catch bug intentionally introduced. These bugs were designed to meet two criteria:
+
+1. A professional developer could plausibly introduce them in real-world code.
+2. The bugs would likely pass through linters, tests, and even manual code review unnoticed.
+
+The programs were written across five languages: Python, TypeScript, Go, Rust, and Ruby. We then prompted both o3-mini and Haiku to review each file and report bugs, using the same prompt and format.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 Overall Results
+
+- **OpenAI o3-mini** caught 37 bugs.
+- **Anthropic Haiku** caught 29.
+
+These are small absolute numbers, but that’s by design — the benchmark focuses on hard bugs. Even catching 10-20% is notable, especially for LLMs not explicitly fine-tuned for code review.
+
+## 🔍 Language-Level Breakdown
+
+Here’s what we saw by language:
+
+- **Python**: o3-mini found 7 bugs, Haiku found 4 — suggesting a slight edge for OpenAI in a well-represented language.
+- **TypeScript**: Both models performed similarly — 7 bugs for o3-mini, 6 for Haiku.
+- **Go**: o3-mini again had 7, while Haiku detected 6.
+- **Rust**: OpenAI outperformed here — 9 bugs vs. Haiku’s 5.
+- **Ruby**: This was Haiku’s standout case, catching 8 bugs vs. OpenAI’s 7.
+
+The numbers aren’t drastically different, but some patterns emerge.
+
+## 🧠 Why the Variance?
+
+The gap by language is likely driven by a mix of training data coverage and reasoning ability. Python and TypeScript are ubiquitous in LLM training corpora, so even non-reasoning models can pattern-match their way to decent bug detection.
+
+But in languages like Ruby and Rust — which tend to be underrepresented — pattern-matching hits a ceiling. That’s where Haiku’s reasoning step can help: it plans before generating, thinking through the logic more explicitly. In cases where memorization fails, reasoning becomes the differentiator.
+
+## 🧩 A Bug Worth Highlighting
+
+One especially interesting case came from a Ruby program in an audio processing library. In the `TimeStretchProcessor` class, there was a bug in how the `normalize_gain` was calculated. The amplitude wasn't being adjusted based on the stretch factor, which could lead to inconsistencies in audio output.
+
+OpenAI's o3-mini missed the issue entirely. Haiku caught it — and explained it well:
+
+> "The final output buffer may be incompletely initialized or contain uninitialized zeros due to the frame-by-frame processing approach, potentially causing unexpected audio artifacts or silent regions in the time-stretched audio output."
+
+This wasn't just a syntax issue — it required understanding the *intent* of the audio processing pipeline, and the consequences of getting a single step wrong. Haiku nailed it.
+
+## ✅ Final Thoughts
+
+Both models are capable bug detectors, especially given how challenging the test set was. But OpenAI o3-mini seems to have a slight edge overall — likely due to better performance on widely used languages.
+
+That said, Haiku shows strong promise, particularly in edge cases and underrepresented languages. Its reasoning ability gives it a better shot at spotting bugs that require understanding how code *should* behave — not just how it usually does.
+
+As AI code review matures, we expect these gaps to narrow. But even today, reasoning models are proving valuable for surfacing real bugs — and not just regurgitating patterns.
+
+---
+Greptile uses models like these in production to catch real bugs in pull requests across teams writing in multiple languages. If you're curious about how AI can help review your code, [try Greptile](https://www.greptile.com) — no credit card required.

@@ -1,0 +1,202 @@
+---
+title: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.5 for Bug Detection'
+publishedAt: '2023-10-22'
+author: 'AI Researcher'
+image: '/o3-mini-vs-sonnet-3.5.png'
+summary: 'We benchmarked OpenAI’s o3-mini and Anthropic’s Sonnet 3.5 on their ability to detect real software bugs across Python, Go, TypeScript, Rust, and Ruby.'
+keywords: 'ai code review, bug detection, openai o3-mini, anthropic sonnet, software verification, reasoning models'
+metaTitle: 'AI Code Review: o3-mini vs Sonnet 3.5 in Bug Detection | Greptile'
+metaDescription: 'Which model catches more bugs? We compared OpenAI o3-mini and Anthropic Sonnet 3.5 on 210 real-world software bugs. Here’s what we found.'
+canonicalUrl: 'https://www.greptile.com/blog/o3-mini-vs-sonnet-3.5'
+category: tools
+---
+
+Bug detection is a very different task from code generation — and a much harder one. It requires understanding, reasoning, and an ability to infer what the code is trying to do. The best models don’t just match patterns — they think.
+
+In this post, we compare two capable models: **OpenAI’s o3-mini** and **Anthropic’s Sonnet 3.5**. Both were tested across five programming languages on the same dataset of challenging, real-world bugs. Let’s see how they performed.
+
+## 🧪 Evaluation Setup
+
+We used a benchmark of 210 hand-crafted programs, each containing one hard-to-catch bug. The bugs were realistic: logic flaws, race conditions, edge cases — the kind of things that slip through review and cause production issues.
+
+We wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 Results
+
+**Total Bugs Caught**
+- **o3-mini**: 37 bugs  
+- **Sonnet 3.5**: 26 bugs
+
+**By Language**
+- **Python**: o3-mini found 7, Sonnet found 3  
+- **TypeScript**: o3-mini found 7, Sonnet found 5  
+- **Go**: Sonnet slightly edged ahead with 8, o3-mini found 7  
+- **Rust**: o3-mini found 9, Sonnet found 3  
+- **Ruby**: Both models tied — 7 bugs each
+
+Despite Sonnet being reasoning-first, o3-mini performed better overall — especially in Python and Rust, where pattern recognition from heavy training data may have played a key role.
+
+## 🧠 Observations
+
+**Why does o3-mini win overall?**  
+o3-mini appears to benefit from strong language coverage and a hybrid of reasoning + memorization. It shines in Python and Rust, likely due to rich training data and effective internal planning steps.
+
+**Where does Sonnet do well?**  
+In Go and Ruby, Sonnet 3.5 shows that reasoning models can generalize — especially when training data is thinner and deductive logic is needed. It also successfully flagged race conditions that o3-mini missed.
+
+These results reinforce a growing pattern: **reasoning models outperform when bugs require logic**, while **pattern-matching models excel when there's lots of prior signal**.
+
+## 🔍 Reasoning Matters More in Certain Languages
+
+In languages like Go and Ruby — less represented in LLM training — **pattern recognition alone isn’t enough**. That’s where Sonnet 3.5's reasoning pipeline starts to shine.
+
+In languages like Python and TypeScript, o3-mini can lean on pre-learned bug patterns, which might explain its consistent edge.
+
+No model wins universally — performance depends heavily on language, bug type, and whether reasoning or memory is more useful for the task.
+
+## 🧩 A Bug Worth Highlighting
+
+**Test #2 — Go: Race Condition in `NotifyDeviceUpdate`**
+
+This bug lived in a smart home system's `ApiServer`. It updated shared state and broadcasted it to clients — but without synchronization. Classic race condition.
+
+- **Sonnet 3.5** caught it and explained:  
+  > "The most critical bug is that there was no locking around device updates before broadcasting, which could lead to race conditions where clients receive stale or partially updated device state..."
+
+- **o3-mini** missed it entirely.
+
+This is a great example of where **reasoning wins**. There’s no surface-level bug — just an implicit contract being broken. Sonnet 3.5 inferred the risk from logic and flow, not just syntax.
+
+## ✅ Final Thoughts
+
+OpenAI’s o3-mini wins this round overall — but the battle is closer than it looks.
+
+- **o3-mini** dominates in languages with strong training coverage and common bug patterns.
+- **Sonnet 3.5** stands out in concurrency issues and less conventional scenarios where reasoning is critical.
+
+If you’re choosing an AI model for bug detection, think about your stack — and the types of bugs you care about. The best choice might vary depending on whether you're dealing with frontend JS or distributed Go microservices.
+
+---
+Greptile uses models like o3-mini in production to surface real bugs in PRs — logic errors, concurrency issues, you name it. Want to see what it finds in your code? [Try Greptile](https://www.greptile.com) — no credit card required.

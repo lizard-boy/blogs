@@ -1,0 +1,206 @@
+---
+title: 'OpenAI o1 vs 4o-mini: Which AI Model Finds More Bugs?'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'o1-vs-4o-mini.png'
+summary: 'We compared OpenAI o1 and 4o-mini on their ability to catch bugs in 210 real-world programs across Python, Go, Rust, TypeScript, and Ruby. Here’s what we learned.'
+keywords: 'ai code review, bug detection, openai 4o, openai o1, reasoning models, software verification'
+metaTitle: 'AI Bug Detection Benchmark: o1 vs 4o-mini | Greptile'
+metaDescription: 'How do OpenAI’s o1 and 4o-mini compare in detecting real-world software bugs? We tested both on 210 tricky programs across five languages. The results are in.'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-4o-mini'
+category: tools
+---
+
+Bug detection requires more than surface-level pattern recognition—it’s a reasoning problem. As LLMs are deployed in developer workflows, their ability to identify bugs before they hit production is being put to the test.
+
+In this benchmark, we evaluated two OpenAI models—**o1** and the newer **4o-mini**—on their ability to catch **real-world bugs** across five programming languages.
+
+
+## 🧪 The Evaluation Dataset
+
+I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+## 📊 Results
+
+**Overall Bugs Detected**
+- **4o-mini**: 19  
+- **o1**: 15  
+
+### Language Breakdown
+
+- **Python**:  
+  - o1: 2  
+  - 4o-mini: 4  
+
+- **TypeScript**:  
+  - o1: 4  
+  - 4o-mini: 2  
+
+- **Go**:  
+  - o1: 2  
+  - 4o-mini: 3  
+
+- **Rust**:  
+  - o1: 3  
+  - 4o-mini: 4  
+
+- **Ruby**:  
+  - o1: 4  
+  - 4o-mini: 6  
+
+4o-mini outperformed o1 in **four out of five languages**, with especially strong results in **Ruby** and **Python**. The only exception was **TypeScript**, where o1 had the upper hand.
+
+## 💡 Analysis
+
+These results suggest that **4o-mini is generally stronger when logical reasoning is required**. In languages like Ruby and Rust—where LLM training data is sparser—pattern-based models like o1 tend to struggle. But 4o-mini's added reasoning phase helps it infer behavior and detect bugs that don’t follow obvious patterns.
+
+That said, o1 performed slightly better in TypeScript, a highly structured and well-represented language in training corpora. Here, simpler pattern recognition often works well enough.
+
+The difference boils down to this:  
+- **o1** excels when there are clear patterns.  
+- **4o-mini** is more robust when those patterns break down.
+
+## 🐞 A Bug Worth Highlighting
+
+### Test #1 — Ruby: Incorrect Gain Scaling in Audio Library
+
+The bug appeared in a `TimeStretchProcessor` class that handled audio transformation. The code used a fixed formula for `normalize_gain`, ignoring the `stretch_factor` that determines playback speed. This led to audio being too loud or too quiet depending on how much it was slowed down or sped up.
+
+- **4o-mini detected the issue**  
+- **o1 missed it**
+
+**4o-mini’s analysis**:
+> "The gain should scale relative to the stretch_factor. Using a fixed gain ignores playback speed and leads to amplitude inconsistency."
+
+This example shows where **reasoning outperforms memorization**. 4o-mini connected the stretch logic with amplitude—something o1 failed to do.
+
+## ✅ Final Thoughts
+
+While both o1 and 4o-mini offer value in bug detection, **4o-mini’s reasoning ability makes it better suited for real-world reviews**, especially in less conventional codebases.
+
+- Choose **4o-mini** if you care about deeper bug detection in tricky or unfamiliar code.
+- Use **o1** when working in high-volume, pattern-rich environments where speed matters more than nuance.
+
+---
+Greptile uses models like 4o-mini in production to catch concurrency issues, logic bugs, and sneaky edge cases before they ship. Want to see what it catches in your codebase? [Try Greptile](https://www.greptile.com) — no credit card required.

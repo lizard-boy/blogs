@@ -1,0 +1,196 @@
+---
+title: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.7 Thinking for Bug Detection'
+publishedAt: '2025-04-04'
+author: 'Daksh Gupta'
+image: '/o3-mini-vs-sonnet-3.7-thinking.png'
+summary: 'We benchmarked OpenAI’s o3-mini and Anthropic’s Sonnet 3.7 Thinking on their ability to detect complex software bugs in Python, TypeScript, Go, Rust, and Ruby.'
+keywords: 'ai code review, bug detection, openai o3-mini, anthropic sonnet 3.7, reasoning models, software verification'
+metaTitle: 'AI Code Review: o3-mini vs Sonnet 3.7 Thinking in Bug Detection | Greptile'
+metaDescription: 'We compared OpenAI o3-mini and Anthropic Sonnet 3.7 Thinking in their ability to detect subtle bugs across five programming languages. Here’s how they performed.'
+canonicalUrl: 'https://www.greptile.com/blog/o3-mini-vs-sonnet-3.7-thinking'
+category: tools
+---
+
+Bug detection is one of the hardest tasks in software engineering — and it’s just as challenging for AI models. Unlike code generation, which often relies on pattern completion, bug detection requires inference, planning, and the ability to reason through edge cases and hidden logic.
+
+In this post, we compare **OpenAI’s o3-mini** and **Anthropic’s Sonnet 3.7 Thinking**, two compact models that bring very different architectures to the table. The former is a reasoning-first OpenAI model. The latter, an explicitly “thinking” variant from Anthropic, adds a planning step before response generation. Which one catches more bugs?
+
+## 🧪 Evaluation Setup
+
+We tested both models on a benchmark of 210 small programs, each with one subtle bug — typically a logic error, a concurrency edge case, or an intentionally tricky misuse of a common API.
+
+Languages tested: Python, TypeScript, Go, Rust, and Ruby.
+
+Each model got the same prompt, context, and structure.
+
+<table
+	style={{
+		borderCollapse: 'collapse',
+		width: '100%',
+		margin: '2rem 0',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontSize: '0.95rem',
+		lineHeight: '1.5'
+	}}>
+	<thead>
+		<tr>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}>
+				ID
+			</th>
+			<th
+				style={{
+					backgroundColor: '#f8fafc',
+					padding: '1rem',
+					textAlign: 'left',
+					borderBottom: '1px solid #e2e8f0',
+					fontWeight: '600',
+					color: '#1a202c'
+				}}></th>
+		</tr>
+	</thead>
+	<tbody>
+		{[
+			['1', 'distributed microservices platform'],
+			['2', 'event-driven simulation engine'],
+			['3', 'containerized development environment manager'],
+			['4', 'natural language processing toolkit'],
+			['5', 'predictive anomaly detection system'],
+			['6', 'decentralized voting platform'],
+			['7', 'smart contract development framework'],
+			['8', 'custom peer-to-peer network protocol'],
+			['9', 'real-time collaboration platform'],
+			['10', 'progressive web app framework'],
+			['11', 'webassembly compiler and runtime'],
+			['12', 'serverless orchestration platform'],
+			['13', 'procedural world generation engine'],
+			['14', 'ai-powered game testing framework'],
+			['15', 'multiplayer game networking engine'],
+			['16', 'big data processing framework'],
+			['17', 'real-time data visualization platform'],
+			['18', 'machine learning model monitoring system'],
+			['19', 'advanced encryption toolkit'],
+			['20', 'penetration testing automation framework'],
+			['21', 'iot device management platform'],
+			['22', 'edge computing framework'],
+			['23', 'smart home automation system'],
+			['24', 'quantum computing simulation environment'],
+			['25', 'bioinformatics analysis toolkit'],
+			['26', 'climate modeling and simulation platform'],
+			['27', 'advanced code generation ai'],
+			['28', 'automated code refactoring tool'],
+			['29', 'comprehensive developer productivity suite'],
+			['30', 'algorithmic trading platform'],
+			['31', 'blockchain-based supply chain tracker'],
+			['32', 'personal finance management ai'],
+			['33', 'advanced audio processing library'],
+			['34', 'immersive virtual reality development framework'],
+			['35', 'serverless computing optimizer'],
+			['36', 'distributed machine learning training framework'],
+			['37', 'robotic process automation rpa platform'],
+			['38', 'adaptive learning management system'],
+			['39', 'interactive coding education platform'],
+			['40', 'language learning ai tutor'],
+			['41', 'comprehensive personal assistant framework'],
+			['42', 'multiplayer collaboration platform']
+		].map((row, i) => (
+			<tr
+				key={i}
+				style={{
+					backgroundColor: 'var(--tw-prose-bg, white)',
+					transition: 'background-color 0.2s'
+				}}>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[0]}
+				</td>
+				<td
+					style={{
+						padding: '1rem',
+						borderBottom: '1px solid var(--tw-prose-border, #e2e8f0)',
+						color: 'var(--tw-prose-body, #1a202c)'
+					}}>
+					{row[1]}
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>
+
+Next I cycled through and introduced a tiny bug in each one. The type of bug I chose to introduce had to be:
+
+1. A bug that a professional developer could reasonably introduce
+2. A bug that could easily slip through linters, tests, and manual code review
+
+Some examples of bugs I introduced:
+
+1. Undefined \`response\` variable in the ensure block
+2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
+3. Hard coded date which would be accurate in most, but not all situations
+
+At the end of this, I had 210 programs, each with a small, difficult-to-catch, and realistic bug.
+
+A disclaimer: these bugs are the hardest-to-catch bugs I could think of, and are not representative of the median bugs usually found in everyday software.
+
+
+## 📊 Results
+
+**Overall Bugs Caught**
+- **OpenAI o3-mini**: 37  
+- **Anthropic Sonnet 3.7 Thinking**: 21
+
+**By Language**
+- **Python**: o3-mini 7, Sonnet 3.7 Thinking 2  
+- **TypeScript**: o3-mini 7, Sonnet 3.7 Thinking 5  
+- **Rust**: o3-mini 9, Sonnet 3.7 Thinking 5  
+- **Ruby**: o3-mini 7, Sonnet 3.7 Thinking 5  
+- **Go**: o3-mini 7, Sonnet 3.7 Thinking 4
+
+OpenAI’s o3-mini outperformed Sonnet 3.7 Thinking across the board — especially in Python and Rust. Sonnet was more competitive in Ruby and TypeScript, and showed reasonable generalization in Go.
+
+## 🧠 Thoughts
+
+Despite being a “thinking” model, **Anthropic’s Sonnet 3.7 Thinking did not outperform OpenAI’s o3-mini** in overall bug detection.
+
+o3-mini demonstrated stronger consistency across languages — and particularly dominated in Python and Rust, likely due to a combination of:
+- **Pattern recognition**, thanks to extensive training on code
+- **Internal planning**, which o3-mini appears to do even without an explicit “thinking step”
+
+Sonnet 3.7 Thinking did show sparks of reasoning strength in some lower-resource languages like Ruby and Go, where logic deduction plays a bigger role and memorization falls short. But it didn’t close the gap overall.
+
+It’s possible that Sonnet’s thinking step helps **in theory**, but doesn’t yet translate into **better bug detection performance** — at least on this dataset.
+
+## 🔍 Where Reasoning Helped
+
+One case showed Sonnet 3.7 Thinking’s strengths:
+
+**Test Case #2 — Python: Asynchronous Path Bug**
+
+This involved a path reconstruction function that relied on a shared dictionary (`came_from`) across asynchronous contexts. A race condition could corrupt the logic mid-execution.
+
+- **Sonnet 3.7 Thinking’s Output**:  
+  > "The most critical bug is that the function does not protect against asynchronous modifications to the `came_from` dictionary during path reconstruction, potentially leading to inconsistent paths or infinite loops."
+
+- **o3-mini** missed the issue.
+
+This is where reasoning helps. Sonnet correctly inferred future states, race conditions, and the consequences of mutation — without obvious syntactic cues. It’s a good sign for future “thinking” model generations.
+
+## ✅ Final Thoughts
+
+**OpenAI o3-mini outperformed Sonnet 3.7 Thinking** in this benchmark — both in overall accuracy and consistency across languages.
+
+But that doesn’t mean reasoning models aren’t useful. When bugs require following multiple steps of logic or simulating asynchronous behavior, Sonnet 3.7 Thinking has real value — just not enough (yet) to win outright.
+
+If you’re building AI-powered code review today, **o3-mini is the stronger choice** for detecting logic and concurrency bugs across
