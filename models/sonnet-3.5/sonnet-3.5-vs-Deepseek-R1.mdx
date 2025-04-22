@@ -1,0 +1,47 @@
+---
+title: ''
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'model-vs/'
+summary: ''
+keywords: ''
+metaTitle: ''
+metaDescription: ''
+canonicalUrl: ''
+category: tools
+---
+
+## Introduction
+
+In recent years, the development of AI models capable of tackling complex software engineering challenges has seen a significant increase. Among these challenges, identifying bugs—especially the so-called "hard bugs" that require deep understanding of code logic and context—remains one of the most difficult yet critical tasks for ensuring software reliability. I conducted experiments using two advanced language models, Anthropic's 3.5 Sonnet and DeepSeek's R1, to evaluate their capability in identifying hard bugs within various programming languages.
+
+## Results
+
+From the 210 bugs tested across multiple languages—Python, TypeScript, Go, Rust, and Ruby—DeepSeek: R1 successfully identified 17 bugs, while Anthropic: 3.5 Sonnet found 23. The results demonstrate a modest lead in favor of Anthropic: 3.5 Sonnet, particularly in harder-to-spot bugs where logical reasoning plays a vital role.
+
+Breaking down the performance per language:
+
+- **Python:** Both models identified 3 out of 42 bugs, resulting in an equal performance.
+- **TypeScript:** DeepSeek: R1 identified 6 out of 42 bugs, whereas Anthropic: 3.5 Sonnet caught 5.
+- **Go:** DeepSeek: R1 managed to catch 3 bugs out of 42, with Anthropic: 3.5 Sonnet outperforming it with 8 captures.
+- **Rust:** DeepSeek: R1 excelled, finding 7 bugs out of 41 compared to Anthropic: 3.5 Sonnet's 3.
+- **Ruby:** Anthropic: 3.5 Sonnet significantly outperformed DeepSeek: R1, identifying 7 out of 42 bugs, compared to DeepSeek's 4 catches.
+
+## Thoughts
+
+The test results highlight the slightly superior performance of Anthropic: 3.5 Sonnet in catching difficult bugs, likely due to its sophisticated reasoning capabilities. However, the marginal difference across certain languages, particularly Python and TypeScript, suggests that while logical reasoning is essential, data familiarity and model architecture also heavily influence a model's bug detection prowess.
+
+DeepSeek: R1 showed its strength in Rust, suggesting a possible architectural efficiency or training data advantage, which lacks in other tested languages. The overall results seem promising and underline the potential application areas where each model can effectively contribute, particularly in mixed-language environments where both logical reasoning and language-specific pattern recognition are crucial.
+
+## Interesting Bugs
+
+One particularly noteworthy bug occurred in a Ruby audio processing library, involving incorrect gain calculation for audio normalization. Specifically, the bug was located in achieving incorrect amplitude by utilizing a fixed formula rather than adjusting relative to the stretch factor.
+
+**Test Number:** (The specific test number wasn't provided)
+
+**Anthropic: 3.5 Sonnet's Output:**
+
+"The bug in this file was in the TimeStretchProcessor class of a Ruby audio processing library, specifically in how it calculates normalize_gain. Instead of adjusting the gain based on the stretch_factor—which represents how much the audio is being sped up or slowed down—it uses a fixed formula. This means the output audio ends up with the wrong amplitude: either too loud or too quiet, depending on the stretch. The correct approach would be to scale the gain relative to the stretch to preserve consistent audio levels."
+
+DeepSeek: R1 failed to identify this bug, which points to Anthropic: 3.5 Sonnet’s superior understanding and flexibility in logical reasoning tasks, particularly when adjustments based on variable states are needed. This example illustrates the importance of thorough code analysis, not just for direct outputs but also for understanding underlying calculations that impact the final product in dynamic programming contexts.
+

@@ -2,7 +2,7 @@
 title: 'Bug Detection Showdown: OpenAI o1 vs o3-mini'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-o3-mini.png'
+image: '/model-vs/o1-vs-o3-mini.png'
 summary: 'We tested OpenAI o1 and o3-mini on 210 tough bugs across five programming languages. Which AI model catches more real-world bugs? Here’s what we found.'
 keywords: 'ai code review, bug detection, openai o3-mini, openai o1, software verification, reasoning models'
 metaTitle: 'AI Code Review Benchmark: OpenAI o1 vs o3-mini | Greptile'
@@ -25,6 +25,7 @@ We designed a benchmark of **210 buggy programs**, drawn from 16 real-world doma
 - Rust  
 - Ruby  
 
+Here are the programs we created for the evaluation:
 
 ## 🧪 The Evaluation Dataset
 
@@ -143,7 +144,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -194,13 +195,13 @@ The gap widens in languages like Rust and Ruby, where o3-mini’s structured rea
 
 ### Test #42 — Python: AttributeError in CSV Handling
 
-In this test, a function tried to determine the number of CSV rows using `rows.length` instead of Python’s correct `len(rows)`—a subtle but critical mistake.
+In this test, a function tried to determine the number of CSV rows using rows.length instead of Python’s correct len(rows)—a subtle but critical mistake.
 
 - **o3-mini caught the bug**  
 - **o1 missed it**
 
 **o3-mini’s output**:
-> "The code incorrectly uses `rows.length` instead of Python's `len(rows)` in `_load_csv_dataset`, which will raise an `AttributeError` when trying to determine the end index for slicing."
+> "The code incorrectly uses rows.length instead of Python's len(rows) in _load_csv_dataset, which will raise an AttributeError when trying to determine the end index for slicing."
 
 This is the kind of bug that requires domain understanding, not just syntax familiarity. o3-mini recognized the language-specific error and explained its runtime consequences—something o1 failed to do.
 

@@ -2,7 +2,7 @@
 title: 'Is OpenAI 4o Better Than o1 at Catching Bugs in Code?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-4o.png'
+image: '/model-vs/o1-vs-4o.png'
 summary: 'We benchmark OpenAI’s o1 and 4o models on their ability to detect realistic software bugs across five programming languages. The results may surprise you.'
 keywords: 'openai 4o, openai o1, ai code review, bug detection, reasoning model, llm code analysis, software verification'
 metaTitle: 'OpenAI 4o vs o1: Which AI Model Catches More Bugs? | Greptile'
@@ -140,7 +140,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -173,7 +173,7 @@ Despite o1 being a reasoning model, 4o showed better performance overall. That s
 
 One of the most telling examples came from a small bug in a data partitioning method.
 
-In the `get_partition` function, the ROUND_ROBIN strategy used `random.randint(...)` instead of a true round-robin algorithm. That leads to uneven and unpredictable distribution of records across partitions—a logic error, not a syntax mistake.
+In the get_partition function, the ROUND_ROBIN strategy used random.randint(...) instead of a true round-robin algorithm. That leads to uneven and unpredictable distribution of records across partitions—a logic error, not a syntax mistake.
 
 4o flagged it immediately. o1 missed it entirely.
 

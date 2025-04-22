@@ -2,7 +2,7 @@
 title: 'OpenAI o1 vs 4o-mini: Which AI Model Finds More Bugs?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-4o-mini.png'
+image: '/model-vs/o1-vs-4o-mini.png'
 summary: 'We compared OpenAI o1 and 4o-mini on their ability to catch bugs in 210 real-world programs across Python, Go, Rust, TypeScript, and Ruby. Here’s what we learned.'
 keywords: 'ai code review, bug detection, openai 4o, openai o1, reasoning models, software verification'
 metaTitle: 'AI Bug Detection Benchmark: o1 vs 4o-mini | Greptile'
@@ -19,6 +19,8 @@ In this benchmark, we evaluated two OpenAI models—**o1** and the newer **4o-mi
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we gnerated for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -185,7 +187,7 @@ The difference boils down to this:
 
 ### Test #1 — Ruby: Incorrect Gain Scaling in Audio Library
 
-The bug appeared in a `TimeStretchProcessor` class that handled audio transformation. The code used a fixed formula for `normalize_gain`, ignoring the `stretch_factor` that determines playback speed. This led to audio being too loud or too quiet depending on how much it was slowed down or sped up.
+The bug appeared in a TimeStretchProcessor class that handled audio transformation. The code used a fixed formula for normalize_gain, ignoring the stretch_factor that determines playback speed. This led to audio being too loud or too quiet depending on how much it was slowed down or sped up.
 
 - **4o-mini detected the issue**  
 - **o1 missed it**

@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs 4o for Bug Detection'
 publishedAt: '2023-10-12'
 author: 'AI Researcher'
-image: 'o3-mini-vs-4o.png'
+image: '/model-vs/o3-mini-vs-4o.png'
 summary: 'We compared OpenAI’s o3-mini and 4o models on their ability to catch hard-to-spot bugs in real software projects across multiple languages.'
 keywords: 'ai code review, bug detection, openai o3-mini, openai 4o, software verification, reasoning models'
 metaTitle: 'OpenAI o3-mini vs 4o: Which Model Catches More Bugs? | Greptile'
@@ -20,6 +20,8 @@ In this post, we compare two of OpenAI’s best small models — **o3-mini** and
 We built a benchmark of 210 small programs, each seeded with a real, hard-to-spot bug. These weren’t toy problems — they were realistic logic errors, edge cases, and misuses of APIs that could easily slip through linters, tests, and even manual review.
 
 We wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -170,7 +172,7 @@ In high-resource languages like Python and Go, where there’s ample training da
 
 ## 🧩 Example: Ruby Audio Bug
 
-One standout case involved a Ruby audio processing library. In the `TimeStretchProcessor` class, the bug was in the `normalize_gain` calculation — it used a fixed value instead of scaling based on the `stretch_factor`, resulting in audio with inconsistent amplitude.
+Program 33 involved a Ruby audio processing library. In the TimeStretchProcessor class, the bug was in the normalize_gain calculation — it used a fixed value instead of scaling based on the stretch_factor, resulting in audio with inconsistent amplitude.
 
 - **o3-mini** caught the issue immediately. It explained that the gain logic didn’t respect time-stretching parameters, leading to mismatched output.
 

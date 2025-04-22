@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o1-mini vs DeepSeek R1 Distill for Bug Detection'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-mini-vs-R1-distill.png'
+image: '/model-vs/o1-mini-vs-R1-distill.png'
 summary: 'We benchmarked OpenAI’s o1-mini and DeepSeek R1 Distill across 210 real-world software bugs to evaluate which model delivers better results in bug detection.'
 keywords: 'ai code review, bug detection, deepseek r1 distill, openai o1-mini, reasoning models, software verification'
 metaTitle: 'Bug Detection Benchmark: OpenAI o1-mini vs DeepSeek R1 Distill | Greptile'
@@ -19,6 +19,8 @@ Bug detection is a tougher task than code generation. It requires understanding 
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we used for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -169,7 +171,7 @@ In TypeScript and Go, DeepSeek’s ability to trace logic flow and identify logi
 
 ### Test 1 — Ruby: TimeStretchProcessor Logic Flaw
 
-In a Ruby audio processing class, the `normalize_gain` value was calculated using a **fixed formula**, instead of adjusting for the `stretch_factor`. The result: audio playback with wildly inconsistent volume.
+In a Ruby audio processing class, the normalize_gain value was calculated using a **fixed formula**, instead of adjusting for the stretch_factor. The result: audio playback with wildly inconsistent volume.
 
 - **DeepSeek caught the bug**  
 - **o1-mini missed it**

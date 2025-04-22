@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs Meta Llama-3.3 70B for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-llama3.3-70B.png'
+image: '/model-vs/o3-mini-vs-llama3.3-70B.png'
 summary: 'We benchmarked OpenAI o3-mini and Meta Llama-3.3 70B to test their bug detection abilities across five programming languages. Here’s how they performed.'
 keywords: 'ai code review, bug detection, llm comparison, openai o3-mini, llama 3.3, software verification, reasoning models'
 metaTitle: 'AI Code Review: o3-mini vs Llama-3.3 for Bug Detection | Greptile'
@@ -22,6 +22,8 @@ We built a dataset of 210 small programs, each seeded with a subtle, realistic b
 Languages tested: Python, Go, Rust, TypeScript, and Ruby.
 
 We then asked each model to review the files and identify bugs. No fine-tuning, no fancy prompt chains — just a simple evaluation of what they can do out of the box.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -136,7 +138,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -172,13 +174,13 @@ There are a few factors likely at play:
 
 ## 🧩 A Bug Worth Highlighting
 
-In one Python test case, both models were asked to analyze a path reconstruction function that used a shared dictionary (`came_from`) inside a loop. The bug involved concurrency: if the dictionary was modified during execution, it could lead to corrupted paths.
+In one Python test case, both models were asked to analyze a path reconstruction function that used a shared dictionary (came_from) inside a loop. The bug involved concurrency: if the dictionary was modified during execution, it could lead to corrupted paths.
 
 - **OpenAI o3-mini**:  
-  > "The most critical bug is that the function relies directly on the mutable `came_from` dictionary in the loop without snapshotting or locking it, exposing the code to asynchronous modifications that can alter path reconstruction mid-execution."
+  > "The most critical bug is that the function relies directly on the mutable came_from dictionary in the loop without snapshotting or locking it, exposing the code to asynchronous modifications that can alter path reconstruction mid-execution."
 
 - **Meta Llama-3.3**:  
-  > "The most critical bug in this code is that it does not handle the case where the `came_from` dictionary is modified concurrently during the execution of the `reconstruction_path` method, potentially leading to inconsistent or incorrect path reconstruction."
+  > "The most critical bug in this code is that it does not handle the case where the came_from dictionary is modified concurrently during the execution of the reconstruction_path method, potentially leading to inconsistent or incorrect path reconstruction."
 
 Both got it. But o3-mini's explanation was more precise — identifying both *when* the bug happens and *why* it’s dangerous. It showed an understanding of threading hazards and proper mitigation strategies.
 

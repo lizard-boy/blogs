@@ -2,7 +2,7 @@
 title: 'OpenAI o1 vs o1-mini: Which Model Is Better at Catching Bugs?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-o1-mini.png'
+image: '/model-vs/o1-vs-o1-mini.png'
 summary: 'We compared OpenAI o1 and o1-mini on their ability to detect 210 challenging bugs across Python, TypeScript, Go, Rust, and Ruby. Which model is better for AI code review?'
 keywords: 'ai code review, bug detection, openai o1 vs o1-mini, software verification, reasoning models'
 metaTitle: 'AI Bug Detection: OpenAI o1 vs o1-mini | Greptile'
@@ -19,6 +19,8 @@ Bug detection is fundamentally different from code generation. It requires reaso
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -182,13 +184,13 @@ Interestingly, **both models struggled equally in Python and Go**, despite these
 
 ### Test #2 — Python: Concurrency in Pathfinding
 
-A concurrency issue emerged in a Python pathfinding implementation. A shared `came_from` dictionary could be modified asynchronously during the `reconstruction_path` method.
+A concurrency issue emerged in a Python pathfinding implementation. A shared came_from dictionary could be modified asynchronously during the reconstruction_path method.
 
 - **o1 caught the bug**  
 - **o1-mini missed it**
 
 **o1’s output**:
-> "The method does not create an immutable snapshot of `came_from`, allowing concurrent modifications that can lead to inconsistent path reconstruction or runtime errors during the loop."
+> "The method does not create an immutable snapshot of came_from, allowing concurrent modifications that can lead to inconsistent path reconstruction or runtime errors during the loop."
 
 Spotting this required **reasoning about mutation, timing, and control flow**—something o1 handled but o1-mini missed. This highlights the importance of deeper logic tracing, especially for race conditions and shared state management.
 

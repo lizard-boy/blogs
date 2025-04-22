@@ -1,0 +1,53 @@
+---
+title: ''
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'model-vs/'
+summary: ''
+keywords: ''
+metaTitle: ''
+metaDescription: ''
+canonicalUrl: ''
+category: tools
+---
+
+
+## Introduction
+
+The world of software development is deeply intertwined with finding and fixing bugs. As developers, we rely on various tools and methodologies to enhance software quality and reliability. Recently, there has been growing interest in using AI models to aid in the detection of software bugs. In this blog post, I will delve into a head-to-head comparison between two notable AI models: OpenAI: 4o and Anthropic: Sonnet 3.5. Both these models offer distinct capabilities in discerning hard-to-find bugs in software programs, and this analysis was conducted to identify which model performs better under specific circumstances.
+
+## Results
+
+The evaluation of OpenAI: 4o and Anthropic: Sonnet 3.5 involved testing them on the task of bug detection across various programming languages. The results from the tests indicate a variation in performance levels across different languages.
+
+- **Overall Performance**: 
+  - Out of 210 bugs, OpenAI: 4o managed to discover 20 bugs, whereas Anthropic: Sonnet 3.5 discovered 26 bugs.
+
+- **Detailed Results by Language**:
+  - **Go**: OpenAI: 4o identified 4 out of 42 bugs while Anthropic: Sonnet 3.5 identified 8 out of 42.
+  - **Python**: OpenAI: 4o detected 6 out of 42 bugs in contrast to Anthropic: Sonnet 3.5, which caught only 3.
+  - **TypeScript**: OpenAI: 4o found 4 bugs out of a possible 42, whereas Anthropic: Sonnet 3.5 detected 5.
+  - **Rust**: Both models performed equally, identifying 3 out of 41 bugs.
+  - **Ruby**: OpenAI: 4o caught 3 out of 42 bugs, whereas Anthropic: Sonnet 3.5 excelled with 7 detections.
+
+These numbers highlight that Anthropic: Sonnet 3.5 showed superior overall performance in detecting hard bugs in software programs.
+
+## Thoughts
+
+The results from our tests present an intriguing insight into how different AI models are tailored for bug detection. The variation in performance can primarily be attributed to the differences in the model architecture and training data exposure. Anthropic: Sonnet 3.5 performed notably well in languages like Ruby, which might be attributed to its reasoning capabilities. Its higher proficiency in Ruby suggests that it can effectively handle lesser-known or less widely used languages where logical reasoning to infer issues plays a significant role.
+
+Meanwhile, OpenAI: 4o shines more in languages with broader datasets like Python, owing to its pattern recognition capabilities, which allows it to pick up common bug patterns quickly.
+
+The better performance of Anthropic: Sonnet 3.5 in Ruby and languages with potentially less training data underlines the benefits of reasoning-based approaches. Overall, this suggests that reasoning or planning steps are more beneficial in languages where straightforward pattern recognition might not suffice due to a lack of extensive training data.
+
+## Interesting Bugs
+
+One of the more interesting bugs was detected in a Ruby audio processing library by Anthropic: Sonnet 3.5 but missed by OpenAI: 4o:
+
+- **Ruby: Audio Processing Library (Bug in normalize_gain Calculation)**
+  - **Test Number**: Not explicitly numbered in the descriptions.
+  - **Anthropic: Sonnet 3.5 Output**: "The bug in this file was in the TimeStretchProcessor class of a Ruby audio processing library, specifically in how it calculates normalize_gain. Instead of adjusting the gain based on the stretch_factor—which represents how much the audio is being sped up or slowed down—it uses a fixed formula. This means the output audio ends up with the wrong amplitude: either too loud or too quiet, depending on the stretch. The correct approach would be to scale the gain relative to the stretch to preserve consistent audio levels."
+
+This bug stresses the importance of understanding not just the code but also the underlying system behavior, which Anthropic: Sonnet 3.5 managed to capture through its reasoning capability. The reasoning model's ability to logically deduce the erroneous fixed formula and suggest a dynamic scaling approach showcases why it successfully identified the bug when OpenAI: 4o did not.
+
+Ultimately, the interplay between advanced reasoning techniques and extensive data patterns will likely define the future capabilities of AI models in software verification tasks.

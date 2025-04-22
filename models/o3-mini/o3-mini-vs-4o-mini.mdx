@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs 4o-mini for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-4o-mini.png'
+image: '/model-vs/o3-mini-vs-4o-mini.png'
 summary: 'We benchmarked OpenAI’s o3-mini and 4o-mini models to evaluate their bug detection skills across Python, Go, Rust, TypeScript, and Ruby.'
 keywords: 'ai code review, bug detection, openai o3-mini, openai 4o-mini, llm comparison, software verification, reasoning models'
 metaTitle: 'AI Code Review: o3-mini vs 4o-mini — Which Model Catches More Bugs? | Greptile'
@@ -20,6 +20,8 @@ We tested them head-to-head across five programming languages to find out.
 Our benchmark dataset consists of 210 programs, each seeded with a realistic bug. These aren’t easy-to-spot errors — they’re subtle logic flaws, concurrency issues, or semantic edge cases that might slip past linters, tests, and even human reviewers.
 
 The languages we evaluated: Python, Go, Rust, TypeScript, and Ruby. Both models were given the same prompt and context and asked to flag any bugs.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -175,15 +177,15 @@ In contrast, 4o-mini, while fast and compact, may sacrifice some of that depth f
 
 Here’s one bug that illustrates the difference in depth between the models.
 
-**Test 50: Search Endpoint Filter Collapse**
+**Test 38: Search Endpoint Filter Collapse**
 
-In a Python script handling task search filters, there were two `$or` keys in the query dictionary. The second one overwrote the first, breaking the compound filtering logic.
+In a Python script handling task search filters, there were two $or keys in the query dictionary. The second one overwrote the first, breaking the compound filtering logic.
 
 - **o3-mini's Output**:  
-  > "The function relies on having multiple `$or` conditions in the query dict, but the second overwrites the first. This results in user-based filtering being completely ignored, breaking the intended search behavior."
+  > "The function relies on having multiple $or conditions in the query dict, but the second overwrites the first. This results in user-based filtering being completely ignored, breaking the intended search behavior."
 
 - **4o-mini's Output**:  
-  > "The `$or` logic may not work as intended because the dictionary has duplicate keys."
+  > "The $or logic may not work as intended because the dictionary has duplicate keys."
 
 Both models identified the general issue — but o3-mini offered a much clearer understanding of the logical consequence. It didn’t just spot the key conflict; it explained why it *matters*.
 

@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o1 vs Meta Llama-3.1 405B for Bug Detection'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-llama3.1-405B.png'
+image: '/model-vs/o1-vs-llama3.1-405B.png'
 summary: 'We benchmarked OpenAI o1 and Meta Llama-3.1 405B across 210 challenging bugs in Python, Go, Rust, TypeScript, and Ruby. Here’s how they compare in real-world bug detection.'
 keywords: 'ai code review, bug detection, llama-3.1, openai o1, reasoning models, software verification'
 metaTitle: 'Bug Detection Benchmark: OpenAI o1 vs Meta Llama-3.1 405B | Greptile'
@@ -17,7 +17,8 @@ As AI code generation improves, the next big question is: **can AI review code t
 
 We tested both models on a benchmark of **210 programs** spanning sixteen domains, each with a carefully planted logic bug. Languages included: Python, TypeScript, Go, Rust, and Ruby.
 
-The task: find the bug, given code and context. No retries or special prompting.
+The task: find the bug, given code and context. No retries or special prompting. Here are the programs we created for the evaluation:
+
 
 ## 📊 Results
 
@@ -62,7 +63,7 @@ This shows clearly in Ruby and Go, where reasoning through flow and concurrency 
 
 ### Test #1 — Ruby: Gain Calculation in Audio Processing
 
-In the `TimeStretchProcessor` class of a Ruby audio library, a bug caused `normalize_gain` to be calculated using a fixed formula—ignoring the `stretch_factor`. This caused audio to be too loud or too quiet depending on speed.
+In the TimeStretchProcessor class of a Ruby audio library, a bug caused normalize_gain to be calculated using a fixed formula—ignoring the stretch_factor. This caused audio to be too loud or too quiet depending on speed.
 
 - **Meta Llama-3.1 405B caught it**  
 - **OpenAI o1 missed it**

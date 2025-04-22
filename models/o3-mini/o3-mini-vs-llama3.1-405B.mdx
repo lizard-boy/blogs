@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs Meta Llama-3.1 405B for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-llama3.1-405B.png'
+image: '/model-vs/o3-mini-vs-llama3.1-405B.png'
 summary: 'We benchmarked OpenAI o3-mini and Meta Llama-3.1 405B to evaluate how well they detect hard-to-find bugs across five programming languages.'
 keywords: 'ai code review, bug detection, llm comparison, openai o3-mini, llama 3.1, software verification, reasoning models'
 metaTitle: 'AI Code Review: OpenAI vs Meta for Bug Detection | Greptile'
@@ -23,6 +23,8 @@ We compiled a set of 210 real-world-inspired programs, each with a single, trick
 2. Still be realistic — things a professional developer might accidentally write.
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we used for the evaluation:
 
 <table
 	style={{
@@ -137,7 +139,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -172,9 +174,9 @@ Why the difference? A few theories:
 
 ## 🧩 A Bug Worth Highlighting
 
-Here’s a standout example — test #2 in Go: a **race condition in a smart home notification system**.
+Here’s a standout example — Program 23 contained a **race condition in a smart home notification system**.
 
-The bug lived in the `NotifyDeviceUpdate` method, which lacked proper synchronization before broadcasting device state. This could result in stale or partially updated device data being sent to clients.
+The bug lived in the NotifyDeviceUpdate method, which lacked proper synchronization before broadcasting device state. This could result in stale or partially updated device data being sent to clients.
 
 **Only o3-mini caught it.** Llama missed it entirely.
 

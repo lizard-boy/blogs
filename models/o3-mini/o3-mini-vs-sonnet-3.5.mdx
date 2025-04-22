@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.5 for Bug Detection'
 publishedAt: '2023-10-22'
 author: 'AI Researcher'
-image: '/o3-mini-vs-sonnet-3.5.png'
+image: '/model-vs/o3-mini-vs-sonnet-3.5.png'
 summary: 'We benchmarked OpenAI’s o3-mini and Anthropic’s Sonnet 3.5 on their ability to detect real software bugs across Python, Go, TypeScript, Rust, and Ruby.'
 keywords: 'ai code review, bug detection, openai o3-mini, anthropic sonnet, software verification, reasoning models'
 metaTitle: 'AI Code Review: o3-mini vs Sonnet 3.5 in Bug Detection | Greptile'
@@ -20,6 +20,8 @@ In this post, we compare two capable models: **OpenAI’s o3-mini** and **Anthro
 We used a benchmark of 210 hand-crafted programs, each containing one hard-to-catch bug. The bugs were realistic: logic flaws, race conditions, edge cases — the kind of things that slip through review and cause production issues.
 
 We wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -178,9 +180,9 @@ No model wins universally — performance depends heavily on language, bug type,
 
 ## 🧩 A Bug Worth Highlighting
 
-**Test #2 — Go: Race Condition in `NotifyDeviceUpdate`**
+**Test 23 — Go: Race Condition in NotifyDeviceUpdate**
 
-This bug lived in a smart home system's `ApiServer`. It updated shared state and broadcasted it to clients — but without synchronization. Classic race condition.
+This bug lived in a smart home system's ApiServer. It updated shared state and broadcasted it to clients — but without synchronization. Classic race condition.
 
 - **Sonnet 3.5** caught it and explained:  
   > "The most critical bug is that there was no locking around device updates before broadcasting, which could lead to race conditions where clients receive stale or partially updated device state..."

@@ -2,7 +2,7 @@
 title: 'OpenAI o1 vs Meta Llama-3.3 70B: Which Model Detects More Bugs?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-llama3.3-70B.png'
+image: '/model-vs/o1-vs-llama3.3-70B.png'
 summary: 'We evaluated OpenAI o1 and Meta Llama-3.3 70B across 210 real-world bugs in Python, Go, Rust, TypeScript, and Ruby. Here’s how they compare in bug detection performance.'
 keywords: 'AI code review, bug detection, llama-3.3, openai o1, software verification, reasoning models'
 metaTitle: 'AI Bug Detection: OpenAI o1 vs Meta Llama-3.3 70B | Greptile'
@@ -19,6 +19,8 @@ Bug detection requires more than syntax awareness. It demands logic, reasoning, 
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -180,13 +182,13 @@ Both models struggled in Rust, highlighting how difficult low-level correctness 
 
 ### Test #2 — Python: Concurrency Edge Case
 
-A bug in a pathfinding implementation involved a shared `came_from` dictionary being mutated asynchronously during the execution of `reconstruction_path()`—causing potential corruption of the path output.
+A bug in a pathfinding implementation involved a shared came_from dictionary being mutated asynchronously during the execution of reconstruction_path()—causing potential corruption of the path output.
 
 - **Meta Llama-3.3 70B caught the bug**  
 - **OpenAI o1 missed it**
 
 **Llama’s output**:
-> "The code does not handle the case where `came_from` is modified concurrently during the reconstruction process, which can lead to inconsistent or incorrect path results."
+> "The code does not handle the case where came_from is modified concurrently during the reconstruction process, which can lead to inconsistent or incorrect path results."
 
 This is the kind of issue that requires **predicting asynchronous side effects**—not something that shows up with surface-level pattern matching.
 

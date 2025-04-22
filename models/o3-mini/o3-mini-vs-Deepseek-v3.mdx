@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs DeepSeek v3 for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-Deepseek-v3.png'
+image: '/model-vs/o3-mini-vs-Deepseek-v3.png'
 summary: 'We tested OpenAI o3-mini and DeepSeek v3 across five programming languages to see which model is better at catching subtle software bugs.'
 keywords: 'ai code review, bug detection, openai o3-mini, deepseek v3, software verification, reasoning models'
 metaTitle: 'OpenAI o3-mini vs DeepSeek v3: Bug Detection Benchmark | Greptile'
@@ -20,6 +20,8 @@ In this post, we compare two strong contenders for AI code review: **OpenAI’s 
 We ran both models on a dataset of **210 small programs**, each with one subtle, logic-breaking bug.
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -173,9 +175,9 @@ This fits a familiar pattern:
 
 ## 🧩 A Bug Worth Highlighting
 
-Here’s an example showing how **o3-mini outperformed DeepSeek** — a bug in a Ruby audio processing library:
+Here’s an example showing how **o3-mini outperformed DeepSeek** — Program 33, a bug in a Ruby audio processing library:
 
-In the `TimeStretchProcessor` class, the `normalize_gain` value was calculated using a **fixed formula**, instead of scaling based on the `stretch_factor`. This led to inconsistent audio levels depending on how much the sample was sped up or slowed down.
+In the TimeStretchProcessor class, the normalize_gain value was calculated using a **fixed formula**, instead of scaling based on the stretch_factor. This led to inconsistent audio levels depending on how much the sample was sped up or slowed down.
 
 - **o3-mini** flagged the issue:  
   > "Instead of adjusting the gain based on the stretch_factor—which represents how much the audio is being sped up or slowed down—it uses a fixed formula."

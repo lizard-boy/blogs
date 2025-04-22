@@ -2,12 +2,12 @@
 title: 'DeepSeek v3 vs OpenAI o1: Which AI Catches More Real-World Bugs?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-Deepseek-R3.png'
+image: '/model-vs/o1-vs-Deepseek-v3.png'
 summary: 'We benchmark DeepSeek v3 and OpenAI o1 on 210 programs with realistic bugs across five languages. The results show a clear winner in AI code review.'
 keywords: 'deepseek v3, openai o1, ai code review, bug detection, reasoning llm, software verification, automated code analysis'
 metaTitle: 'DeepSeek v3 vs OpenAI o1: AI Code Review and Bug Detection Benchmark | Greptile'
 metaDescription: 'We tested DeepSeek v3 and OpenAI o1 on 210 real-world bugs across Python, Go, TypeScript, Rust, and Ruby. Which LLM performs better at bug detection and code review?'
-canonicalUrl: 'https://www.greptile.com/blog/o1-vs-Deepseek-R3'
+canonicalUrl: 'https://www.greptile.com/blog/o1-vs-Deepseek-v3'
 category: tools
 ---
 
@@ -138,7 +138,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -191,11 +191,11 @@ DeepSeek v3 appears to include stronger intermediate reasoning—“thinking bef
 
 ## 🕵️ Interesting Bug: Async Cancellation Race Condition
 
-A standout case was **Bug #1**, in a Python service using a `CircuitBreaker`.
+A standout case was **Bug #1**, in a Python service using a CircuitBreaker.
 
 The bug involved cancelling tasks without properly awaiting them, leading to unhandled exceptions and potential resource leaks. OpenAI o1 missed the issue. DeepSeek v3 caught it, and gave this reasoning:
 
-> “The most critical bug is in the `CircuitBreaker.execute_request` method where pending tasks are not properly awaited before cancellation, which could lead to unhandled exceptions and resource leaks when tasks are cancelled during timeout.”
+> “The most critical bug is in the CircuitBreaker.execute_request method where pending tasks are not properly awaited before cancellation, which could lead to unhandled exceptions and resource leaks when tasks are cancelled during timeout.”
 
 This is the kind of bug that’s hard for traditional models to catch—**it’s not visible from syntax or structure alone**. It requires simulating the behavior of the program and understanding timing-related side effects.
 

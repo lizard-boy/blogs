@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o1-mini vs o3-mini for Bug Detection'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-mini-vs-o3-mini.png'
+image: '/model-vs/o1-mini-vs-o3-mini.png'
 summary: 'We tested OpenAI’s o1-mini and o3-mini models on their ability to detect subtle software bugs across Python, Go, TypeScript, Rust, and Ruby.'
 keywords: 'ai code review, bug detection, openai o1-mini, openai o3-mini, reasoning models, software verification'
 metaTitle: 'Bug Detection Benchmark: OpenAI o1-mini vs o3-mini | Greptile'
@@ -19,6 +19,8 @@ Bug detection requires more than just syntax knowledge — it demands logic, con
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -169,7 +171,7 @@ That’s why o3-mini shines in languages like Rust and Go — where reasoning ab
 
 ## 🧩 A Bug Worth Highlighting
 
-### Go — Race Condition in `NotifyDeviceUpdate`
+### Go — Race Condition in NotifyDeviceUpdate
 
 In a smart home backend, device state updates were being sent without proper synchronization, resulting in race conditions.
 

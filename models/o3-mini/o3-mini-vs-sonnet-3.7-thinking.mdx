@@ -1,8 +1,8 @@
 ---
-title: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.7 Thinking for Bug Detection'
+title: 'OpenAI o3-mini vs Anthropic Sonnet 3.7 Thinking for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-sonnet-3.7-thinking.png'
+image: '/model-vs/o3-mini-vs-sonnet-3.7-thinking.png'
 summary: 'We benchmarked OpenAI’s o3-mini and Anthropic’s Sonnet 3.7 Thinking on their ability to detect complex software bugs in Python, TypeScript, Go, Rust, and Ruby.'
 keywords: 'ai code review, bug detection, openai o3-mini, anthropic sonnet 3.7, reasoning models, software verification'
 metaTitle: 'AI Code Review: o3-mini vs Sonnet 3.7 Thinking in Bug Detection | Greptile'
@@ -21,7 +21,7 @@ We tested both models on a benchmark of 210 small programs, each with one subtle
 
 Languages tested: Python, TypeScript, Go, Rust, and Ruby.
 
-Each model got the same prompt, context, and structure.
+Each model got the same prompt, context, and structure. Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -136,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -176,12 +176,12 @@ It’s possible that Sonnet’s thinking step helps **in theory**, but doesn’t
 
 One case showed Sonnet 3.7 Thinking’s strengths:
 
-**Test Case #2 — Python: Asynchronous Path Bug**
+**Test Case 2 — Python: Asynchronous Path Bug**
 
-This involved a path reconstruction function that relied on a shared dictionary (`came_from`) across asynchronous contexts. A race condition could corrupt the logic mid-execution.
+This involved a path reconstruction function that relied on a shared dictionary (came_from) across asynchronous contexts. A race condition could corrupt the logic mid-execution.
 
 - **Sonnet 3.7 Thinking’s Output**:  
-  > "The most critical bug is that the function does not protect against asynchronous modifications to the `came_from` dictionary during path reconstruction, potentially leading to inconsistent paths or infinite loops."
+  > "The most critical bug is that the function does not protect against asynchronous modifications to the came_from dictionary during path reconstruction, potentially leading to inconsistent paths or infinite loops."
 
 - **o3-mini** missed the issue.
 

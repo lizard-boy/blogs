@@ -2,7 +2,7 @@
 title: "o1-mini vs 4o-mini: Which AI Model Wins at Code Review?"
 publishedAt: "2025-04-01"
 author: "Everett Butler"
-image: "o1-mini-vs-4o-mini.png"
+image: "/model-vs/o1-mini-vs-4o-mini.png"
 summary: "We evaluated OpenAI’s o1-mini and 4o-mini across 210 bugs in five languages to see which delivers better AI code reviews. The results show how reasoning improves bug detection."
 keywords: "code review tools, ai code reviews, o1-mini vs 4o-mini, OpenAI LLMs, automated bug detection"
 metaTitle: "AI Code Reviews: o1-mini vs 4o-mini in Bug Detection"
@@ -21,6 +21,8 @@ In this post, we compare **OpenAI’s o1-mini** and **4o-mini**, two compact LLM
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -135,7 +137,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -187,12 +189,12 @@ That ability to generalize—rather than just memorize—gives 4o-mini an edge, 
 
 **Test 1: Gain Calculation in Ruby Audio Library**
 
-In a `TimeStretchProcessor` class, a bug involved miscalculating `normalize_gain`. Instead of scaling based on `stretch_factor`, the code used a fixed value—resulting in audio that was too loud or too quiet depending on speed.
+In a TimeStretchProcessor class, a bug involved miscalculating normalize_gain. Instead of scaling based on stretch_factor, the code used a fixed value—resulting in audio that was too loud or too quiet depending on speed.
 
 - **o1-mini** missed it  
 - **4o-mini** flagged it
 
-This wasn’t a syntax issue. It was a **logic error in audio domain math**, requiring the model to reason about the effect of one variable (`stretch_factor`) on another (`gain`). 4o-mini connected the dots—o1-mini didn’t.
+This wasn’t a syntax issue. It was a **logic error in audio domain math**, requiring the model to reason about the effect of one variable (stretch_factor) on another (gain). 4o-mini connected the dots—o1-mini didn’t.
 
 ## ✅ Conclusion
 

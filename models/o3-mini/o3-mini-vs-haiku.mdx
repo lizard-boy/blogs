@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs Anthropic Haiku for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-haiku.png'
+image: '/model-vs/o3-mini-vs-haiku.png'
 summary: 'We benchmarked OpenAI o3-mini and Anthropic Haiku to evaluate their bug detection performance across five programming languages.'
 keywords: 'ai code review, bug detection, llm comparison, openai o3-mini, anthropic haiku, software verification, reasoning models'
 metaTitle: 'AI Code Review: o3-mini vs Haiku for Bug Detection | Greptile'
@@ -23,6 +23,8 @@ We created a benchmark of 210 small programs, each with a single, difficult-to-c
 2. The bugs would likely pass through linters, tests, and even manual code review unnoticed.
 
 The programs were written across five languages: Python, TypeScript, Go, Rust, and Ruby. We then prompted both o3-mini and Haiku to review each file and report bugs, using the same prompt and format.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -137,7 +139,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -173,7 +175,7 @@ But in languages like Ruby and Rust — which tend to be underrepresented — pa
 
 ## 🧩 A Bug Worth Highlighting
 
-One especially interesting case came from a Ruby program in an audio processing library. In the `TimeStretchProcessor` class, there was a bug in how the `normalize_gain` was calculated. The amplitude wasn't being adjusted based on the stretch factor, which could lead to inconsistencies in audio output.
+One especially interesting case came from Program 33, a Ruby program in an audio processing library. In the TimeStretchProcessor class, there was a bug in how the normalize_gain was calculated. The amplitude wasn't being adjusted based on the stretch factor, which could lead to inconsistencies in audio output.
 
 OpenAI's o3-mini missed the issue entirely. Haiku caught it — and explained it well:
 

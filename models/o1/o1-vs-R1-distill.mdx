@@ -2,7 +2,7 @@
 title: 'DeepSeek R1-distill vs OpenAI o1: Which AI Model Finds More Bugs?'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-vs-R1-distill.png'
+image: '/model-vs/o1-vs-R1-distill.png'
 summary: 'We benchmark DeepSeek’s R1-distill and OpenAI’s o1 on their ability to detect real-world bugs across multiple programming languages. One model clearly comes out ahead.'
 keywords: 'deepseek r1, openai o1, ai code review, bug detection, reasoning llm, software verification, ai bug finder'
 metaTitle: 'DeepSeek R1-distill vs OpenAI o1: Which AI Finds More Bugs? | Greptile'
@@ -21,6 +21,8 @@ In this post, we compare two models: **DeepSeek R1-distill** and **OpenAI o1**, 
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -135,7 +137,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 

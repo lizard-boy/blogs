@@ -1,0 +1,57 @@
+---
+title: ''
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'model-vs/'
+summary: ''
+keywords: ''
+metaTitle: ''
+metaDescription: ''
+canonicalUrl: ''
+category: tools
+---
+
+## Introduction
+
+As artificial intelligence (AI) becomes increasingly prevalent in software development, its role in identifying bugs is gaining attention. Detecting bugs is a nuanced problem distinct from code generation and stands as one of the more difficult challenges in software verification. In this context, I tested two large language models (LLMs)—Anthropic: 3.5 Sonnet and DeepSeek: v3—to assess their effectiveness in catching hard-to-find bugs across various programming languages. This post will examine the test outcomes and provide insights into the potential of AI in software verification.
+
+## Results
+
+The results of the tests offer a quantitative glimpse into the capabilities of these models in detecting bugs:
+
+### Summary of Findings
+
+- **Overall Performance:**  
+  DeepSeek: v3 correctly found bugs 5 times in Go, 8 times in Python, 4 times in TypeScript, 5 times in Rust, and 5 times in Ruby out of 42 or 41 opportunities, depending on the language.
+  
+- **Anthropic: 3.5 Sonnet Performance:**  
+  This model managed to detect bugs 8 times in Go, 3 times in Python, 5 times in TypeScript, 3 times in Rust, and 7 times in Ruby.
+
+### Language-Specific Observations
+
+- **Python:** Despite being one of the most popular languages, Anthropic: 3.5 Sonnet found only 3 bugs, whereas DeepSeek: v3 found 8. This suggests DeepSeek: v3 had a slightly better grasp of Python's intricacies, possibly due to its ability to deal with complex patterns.
+
+- **TypeScript & Go:** Both models showed comparable performance, with minor differences, further emphasizing TypeScript as a language where comprehensive training data might level the playing field.
+
+- **Rust:** The models faced challenges in Rust, with DeepSeek: v3 slightly outperforming Anthropic: 3.5 Sonnet, possibly due to its reasoning capability.
+
+- **Ruby:** Here, Anthropic: 3.5 Sonnet excelled, finding 7 bugs compared to DeepSeek's 5, suggesting perhaps better data specificity in training or better logical reasoning for less pattern-oriented languages.
+
+## Thoughts
+
+The ability of reasoning models to outperform standard LLMs can partly be attributed to the structured thinking process involved in bug detection. While data availability can influence model performance, the apparent advantage of reasoning—a hallmark trait of advanced thinking—emerges clearly in the test results. Specifically, for languages like Ruby and Rust, which might not have vast training datasets, reasoning models provide an edge by going beyond simple pattern recognition. Furthermore, nuances in language constructs and unique bug types like race conditions may require reasoning that pattern-based models fail to capture effectively.
+
+### Interesting Bugs
+
+Taking a deeper dive into a specific case, the **Race Condition in Smart Home Notification System (Go)** highlights the potential of the thinking model:  
+
+- **Test Number:** Not specified  
+- **Bug Description:** The code fails to implement locking around device updates, leading to potential race conditions.
+- **Reasoning Output (DeepSeek: v3):** The model capable of identifying the proper synchronization needed between device updates and broadcast events effectively prevented a critical race condition.
+- **Model Reasoning:** DeepSeek: v3's structured thinking approach allowed it to identify the missing synchronization, showcasing how a well-planned reasoning model can catch issues in concurrent processing tasks that non-reasoning models may overlook.
+
+The results indicate the potential for reasoning models to play a vital role in identifying complex bugs, emphasizing the need for deliberate planning and thinking mechanisms for effective AI-driven software verification.
+
+---
+
+In conclusion, the comparison reveals that while both models possess bug-detection capabilities, the added dimension of structured reasoning in DeepSeek: v3 offers a noteworthy advantage in specific programming contexts. As AI continues to evolve, equipping models with reasoning abilities may enhance their utility in software development and verification.

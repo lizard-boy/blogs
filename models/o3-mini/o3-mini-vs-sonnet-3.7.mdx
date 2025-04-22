@@ -1,8 +1,8 @@
 ---
-title: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.7 for Bug Detection'
+title: 'OpenAI o3-mini vs Anthropic Sonnet 3.7 for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-sonnet-3.7.png'
+image: '/model-vs/o3-mini-vs-sonnet-3.7.png'
 summary: 'We benchmarked OpenAI’s o3-mini and Anthropic’s Sonnet 3.7 on their ability to detect hard-to-spot bugs across Python, TypeScript, Go, Rust, and Ruby.'
 keywords: 'ai code review, bug detection, openai o3-mini, anthropic sonnet 3.7, software verification, reasoning models'
 metaTitle: 'AI Code Review: OpenAI o3-mini vs Anthropic Sonnet 3.7 | Greptile'
@@ -19,6 +19,8 @@ In this post, we compare **OpenAI’s o3-mini** and **Anthropic’s Sonnet 3.7**
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -133,7 +135,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -174,7 +176,7 @@ There’s no universal winner — just strengths that shift based on language, b
 
 **Go — Smart Home Race Condition**
 
-This bug appeared in a smart home notification system. A `NotifyDeviceUpdate` method broadcasted state changes — but failed to lock shared state first, creating a race condition.
+This bug appeared in a smart home notification system. A NotifyDeviceUpdate method broadcasted state changes — but failed to lock shared state first, creating a race condition.
 
 - **Sonnet 3.7 caught it**  
 - **o3-mini missed it**

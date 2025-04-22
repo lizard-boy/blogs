@@ -1,8 +1,8 @@
 ---
-title: 'AI Code Review: OpenAI o3-mini vs DeepSeek R1 Distill Llama for Bug Detection'
+title: 'OpenAI o3-mini vs DeepSeek R1 Distill Llama for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-R1-distill.png'
+image: '/model-vs/o3-mini-vs-R1-distill.png'
 summary: 'We tested OpenAI o3-mini and DeepSeek R1 Distill Llama on their ability to detect subtle bugs across five programming languages. Here’s what we found.'
 keywords: 'ai code review, bug detection, openai o3-mini, deepseek r1, software verification, reasoning models'
 metaTitle: 'OpenAI o3-mini vs DeepSeek R1: Which LLM Catches More Bugs? | Greptile'
@@ -20,6 +20,8 @@ The goal? See which model performs better across a variety of programming langua
 We evaluated both models on 210 hand-crafted programs, each containing a subtle but realistic bug. These bugs are hard by design — the kind that get through CI, sneak past linters, and still end up in production.
 
 We wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -185,7 +187,7 @@ This diversity in performance highlights the need for adaptive AI code review �
 
 One of the more surprising moments came in **Test #2**, from a Go smart home system.
 
-The bug involved a **race condition** in the `NotifyDeviceUpdate` method — state was being modified and broadcasted without synchronization. Classic concurrency hazard.
+The bug involved a **race condition** in the NotifyDeviceUpdate method — state was being modified and broadcasted without synchronization. Classic concurrency hazard.
 
 - **DeepSeek caught it.**  
 - **o3-mini missed it.**

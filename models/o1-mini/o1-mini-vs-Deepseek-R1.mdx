@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o1-mini vs DeepSeek R1 for Bug Detection'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-mini-vs-Deepseek-R1.png'
+image: '/model-vs/o1-mini-vs-Deepseek-R1.png'
 summary: 'We benchmarked OpenAI o1-mini and DeepSeek R1 across 210 bugs in Python, TypeScript, Go, Rust, and Ruby. Which model is better at catching real-world software issues?'
 keywords: 'ai code review, bug detection, deepseek r1, openai o1-mini, software verification, reasoning models'
 metaTitle: 'Bug Detection Benchmark: OpenAI o1-mini vs DeepSeek R1 | Greptile'
@@ -17,6 +17,8 @@ AI models are gaining traction in code generation—but what about **code review
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -131,7 +133,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 

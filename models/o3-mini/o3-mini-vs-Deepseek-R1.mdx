@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o3-mini vs DeepSeek R1 for Bug Detection'
 publishedAt: '2025-04-04'
 author: 'Daksh Gupta'
-image: '/o3-mini-vs-Deepseek-R1.png'
+image: '/model-vs/o3-mini-vs-Deepseek-R1.png'
 summary: 'We benchmarked OpenAI’s o3-mini and DeepSeek R1 on their ability to detect subtle software bugs in real-world programs across Python, TypeScript, Go, Rust, and Ruby.'
 keywords: 'ai code review, bug detection, openai o3-mini, deepseek r1, software verification, reasoning models'
 metaTitle: 'LLM Showdown: OpenAI o3-mini vs DeepSeek R1 in Bug Detection | Greptile'
@@ -20,6 +20,8 @@ In this post, we compare two such models: **OpenAI’s o3-mini** and **DeepSeek�
 We tested both models on a curated benchmark of 210 real-world-inspired programs, each with a subtle but critical bug. The languages: Python, TypeScript, Go, Rust, and Ruby.
 
 Each model received the same prompts and context. The goal: detect the bug.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -134,7 +136,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -177,12 +179,12 @@ The lesson? Model performance is highly language-dependent, and no single approa
 
 ## 🧩 A Bug Worth Highlighting
 
-**Test #2 — Go: Race Condition in `ServiceRegistry`**
+**Test 1 — Go: Race Condition in ServiceRegistry**
 
-In this case, OpenAI o3-mini detected a critical concurrency bug: a shared map (`instances`) accessed across goroutines without synchronization.
+In this case, OpenAI o3-mini detected a critical concurrency bug: a shared map (instances) accessed across goroutines without synchronization.
 
 - **o3-mini's Output**:  
-  > "The most critical bug identifies a thread-safety issue in `ServiceRegistry.instances` accessed concurrently by multiple threads (Flask request handlers and async health checks) without proper synchronization, leading to race conditions and potential data corruption."
+  > "The most critical bug identifies a thread-safety issue in ServiceRegistry.instances accessed concurrently by multiple threads (Flask request handlers and async health checks) without proper synchronization, leading to race conditions and potential data corruption."
 
 - **DeepSeek R1** missed the issue entirely.
 

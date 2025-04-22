@@ -1,0 +1,48 @@
+---
+title: ''
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'model-vs/'
+summary: ''
+keywords: ''
+metaTitle: ''
+metaDescription: ''
+canonicalUrl: ''
+category: tools
+---
+
+## Introduction
+
+In recent years, the development of large language models (LLMs) has taken center stage in various domains, including software engineering. One of the critical areas of interest is their capability to detect bugs in code—some straightforward and others quite intricate. The advent of reasoning models like Anthropic's 3.5 Sonnet and Haiku represents a pivotal moment in leveraging AI for bug detection. This study conducts tests on these models to assess their efficacy in identifying challenging bugs across several programming languages, including Python, TypeScript, Go, Rust, and Ruby.
+
+## Results
+
+During our rigorous evaluation, both Anthropic: 3.5 Sonnet and Anthropic: Haiku were tasked with identifying difficult bugs within diverse codebases. The results offer a nuanced look at their respective abilities:
+
+- **Overall Bug Detection**: Of the 210 bugs, Haiku managed to correctly identify 17, while the thinking prowess of 3.5 Sonnet led to 23 correct detections.
+  
+- **Language-Specific Performance**:
+  - **Python**: Haiku discovered 4 out of 42 bugs, whereas 3.5 Sonnet detected only 3.
+  - **TypeScript**: Haiku's and 3.5 Sonnet's performances were almost matched, with 6 and 5 bugs discovered, respectively.
+  - **Go**: 3.5 Sonnet slightly outperformed Haiku by catching 8 bugs compared to Haiku's 6.
+  - **Rust**: Haiku found 5 bugs, with 3.5 Sonnet trailing slightly at 3.
+  - **Ruby**: Here, the difference is stark, as 3.5 Sonnet found 8 bugs—some of which are extremely intricate—compared to Haiku's 7.
+
+## Thoughts
+
+The study underscores the intricate balance between brute computational force evident in Haiku and the strategic planning of 3.5 Sonnet. Haiku's broad exposure to programming languages via LLM training seems to provide it with an edge in pattern recognition, particularly useful in more popular languages like Python and TypeScript. However, the real boon of 3.5 Sonnet is its ability to pause and deliberate—hallmarks of reasoning models. This capability is especially advantageous in less common languages like Ruby, where logical reasoning is necessary due to fewer available patterns in its training set. It's notable that 3.5 Sonnet's planning before execution allows it to navigate complex bug scenarios more effectively than Haiku, which often reacts purely based on its training corpus.
+
+## Interesting Bugs
+
+A standout example in distinguishing the two models emerges from our analysis of a bug in a Ruby audio processing library—specifically within the `TimeStretchProcessor` class dealing with gain calculation. While Haiku failed to notice the incorrect static gain adjustment method resulting in erroneous audio amplitude output, 3.5 Sonnet pinpointed the oversight.
+
+### Test Number 37:
+
+**3.5 Sonnet Output**:
+
+The model caught the issue by reasoning: 
+"The most critical bug in this code is in the `TimeStretchProcessor.process()` method, where the final output buffer may be incompletely initialized or contain uninitialized zeros due to the frame-by-frame processing approach, potentially causing unexpected audio artifacts or silent regions in the time-stretched audio output."
+
+3.5 Sonnet's ability to unravel such a complex bug points to its strength in reasoning through the problem, interpreting not just what the code does in isolation, but its real-world implications and shortfalls. This illustrates the model's capability to apply logical reasoning in identifying subtle, consequential errors—demonstrating a robust advantage over mere pattern recognition.
+
+In conclusion, both models show a promising future in augmenting bug detection within software engineering workflows. The thinking capability of 3.5 Sonnet could mature into a crucial tool, offsetting the brute efficiency of large data-trained models like Haiku, particularly in scenarios where logical deduction trumps data familiarity.

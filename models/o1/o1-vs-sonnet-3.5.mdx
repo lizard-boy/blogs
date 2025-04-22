@@ -1,0 +1,97 @@
+---
+title: 'OpenAI o1 vs Anthropic Sonnet 3.5: Which AI is Better at Bug Detection?'
+publishedAt: '2025-04-01'
+author: 'Everett Butler'
+image: 'model-vs/'
+summary: 'We compared OpenAI’s o1 and Anthropic’s Sonnet 3.5 models to evaluate their effectiveness at catching difficult software bugs across multiple programming languages.'
+keywords: 'AI code review, bug detection, OpenAI o1, Anthropic Sonnet 3.5, software debugging, LLM comparison'
+metaTitle: 'OpenAI o1 vs Anthropic Sonnet 3.5: AI Bug Detection Capabilities Compared | Greptile'
+metaDescription: 'Discover how Anthropic’s Sonnet 3.5 compares to OpenAI’s o1 at identifying complex bugs in Python, TypeScript, Go, Rust, and Ruby.'
+canonicalUrl: 'https://www.greptile.com/blog/openai-o1-vs-anthropic-sonnet-3-5-bug-detection'
+category: tools
+---
+
+I'm Everett from Greptile. Ensuring code robustness and catching elusive bugs before deployment is becoming increasingly challenging as software complexity grows. At Greptile, we leverage AI-driven code review to pinpoint subtle logical flaws and anomalies traditional tools might overlook.
+
+Recently, I conducted a rigorous evaluation of two prominent large language models—**OpenAI o1** and **Anthropic Sonnet 3.5**—to gauge their effectiveness at uncovering challenging bugs. Detecting these issues requires more than syntax checking; it demands deep logic comprehension, reasoning about concurrency, and nuanced understanding of language-specific complexities.
+
+## Evaluation Setup
+
+To comprehensively assess each model's capabilities, I constructed a diverse dataset of **210 difficult-to-detect bugs**, evenly distributed across five popular programming languages:
+
+- **Python**
+- **TypeScript**
+- **Go**
+- **Rust**
+- **Ruby**
+
+Each bug was deliberately subtle and realistic, designed specifically to evade standard linters, automated tests, and casual manual reviews.
+
+## Results
+
+### Overall Performance
+
+Across all tested scenarios, Anthropic Sonnet 3.5 demonstrated clear superiority:
+
+- **Anthropic Sonnet 3.5** successfully identified **26** out of 210 bugs.
+- **OpenAI o1** identified **15** out of 210 bugs.
+
+This significant difference underscores Sonnet 3.5's advantage, likely due to its embedded reasoning capability.
+
+### Performance Breakdown by Language
+
+Let's delve deeper into how each model performed by language:
+
+#### Go
+
+- **Anthropic Sonnet 3.5**: 8/42 bugs detected
+- **OpenAI o1**: 2/42 bugs detected
+
+Anthropic Sonnet 3.5 notably excelled here, likely benefiting from its reasoning capability to handle Go’s concurrency-heavy architecture.
+
+#### Python
+
+- **Anthropic Sonnet 3.5**: 3/42 bugs detected
+- **OpenAI o1**: 2/42 bugs detected
+
+Both models struggled in Python, though Sonnet 3.5 edged slightly ahead.
+
+#### TypeScript
+
+- **Anthropic Sonnet 3.5**: 5/42 bugs detected
+- **OpenAI o1**: 4/42 bugs detected
+
+Performance was closely matched in TypeScript, with Sonnet 3.5 slightly outperforming o1.
+
+#### Rust
+
+- **Anthropic Sonnet 3.5**: 3/41 bugs detected
+- **OpenAI o1**: 3/41 bugs detected
+
+The models were evenly matched for Rust, reflecting the inherent complexity of Rust’s error patterns and systems-level constructs.
+
+#### Ruby
+
+- **Anthropic Sonnet 3.5**: 7/42 bugs detected
+- **OpenAI o1**: 4/42 bugs detected
+
+Sonnet 3.5 outperformed o1 significantly here, showcasing the benefit of reasoning capabilities for Ruby's dynamic, nuanced environment.
+
+## Why Did Sonnet 3.5 Perform Better?
+
+Anthropic Sonnet 3.5's superior results can largely be attributed to its integrated reasoning step, enabling the model to logically explore potential errors before generating its output. Unlike models primarily relying on pattern recognition—such as OpenAI o1—this reasoning process allows Sonnet 3.5 to more effectively identify subtle logical issues, particularly in less common or complex language environments.
+
+While pattern-matching is sufficient for languages with extensive training datasets (like Python or TypeScript), languages with fewer training examples—such as Go and Ruby—benefit greatly from a model that systematically evaluates logic and intent.
+
+## Highlighted Bug Example: Audio Gain Calculation (Ruby)
+
+One particularly insightful example (Test #1) highlights Sonnet 3.5’s advantage clearly:
+
+- **Anthropic Sonnet 3.5’s reasoning:**  
+  *"The bug is in the `TimeStretchProcessor` class of a Ruby audio processing library, specifically within the calculation of `normalize_gain`. The current implementation uses a fixed formula rather than adjusting the gain based on the `stretch_factor`—the value representing how much audio is sped up or slowed down. This causes incorrect amplitude outputs, either too loud or too quiet depending on the stretch applied. The correct implementation should scale the gain proportionally to the stretch factor."*
+
+Anthropic Sonnet 3.5 detected this nuanced logic flaw by assessing the intended algorithmic behavior against actual implementation. OpenAI o1 missed this subtlety entirely, highlighting Sonnet 3.5’s capability to perform deeper logical reasoning—crucial for catching sophisticated bugs.
+
+## Final Thoughts
+
+This evaluation illustrates that while both OpenAI o1 and Anthropic Sonnet 3.5 have strengths, the added reasoning capabilities of Sonnet 3.5 deliver significant practical benefits in real-world bug detection. As software systems continue growing in complexity, reasoning-enhanced AI models promise to become essential tools for developers aiming to maintain robust, error-free codebases.

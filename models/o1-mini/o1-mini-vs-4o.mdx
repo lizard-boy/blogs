@@ -2,7 +2,7 @@
 title: 'AI Code Review: OpenAI o1-mini vs 4o in Bug Detection'
 publishedAt: '2025-04-01'
 author: 'Everett Butler'
-image: 'o1-mini-vs-4o.png'
+image: '/model-vs/o1-mini-vs-4o.png'
 summary: 'We tested OpenAI’s o1-mini and 4o models across 210 real-world bugs to evaluate which is better at detecting complex logic errors, race conditions, and hidden defects.'
 keywords: 'ai code review, bug detection, openai o1-mini, openai 4o, software verification, reasoning models'
 metaTitle: 'Bug Detection Benchmark: OpenAI o1-mini vs 4o | Greptile'
@@ -17,6 +17,8 @@ While AI models are increasingly capable of generating code, their ability to **
 ## 🧪 The Evaluation Dataset
 
 I wanted to have the dataset of bugs to cover multiple domains and languages. I picked sixteen domains, picked 2-3 self-contained programs for each domain, and used Cursor to generate each program in TypeScript, Ruby, Python, Go, and Rust.
+
+Here are the programs we created for the evaluation:
 
 <table
 	style={{
@@ -131,7 +133,7 @@ Next I cycled through and introduced a tiny bug in each one. The type of bug I c
 
 Some examples of bugs I introduced:
 
-1. Undefined \`response\` variable in the ensure block
+1. Undefined \response\ variable in the ensure block
 2. Not accounting for amplitude normalization when computing wave stretching on a sound sample
 3. Hard coded date which would be accurate in most, but not all situations
 
@@ -190,7 +192,7 @@ In any case, 4o’s improvement across the board — even modestly in Rust and G
 
 ### Test #1 — Ruby: Audio Processing Logic Bug
 
-In the `TimeStretchProcessor` class of a Ruby audio library, a bug appeared in the `normalize_gain` calculation. The gain was fixed, rather than scaled based on the `stretch_factor`. This caused output amplitude to swing wildly depending on how much the sample was sped up or slowed down.
+In the TimeStretchProcessor class of a Ruby audio library, a bug appeared in the normalize_gain calculation. The gain was fixed, rather than scaled based on the stretch_factor. This caused output amplitude to swing wildly depending on how much the sample was sped up or slowed down.
 
 - **o1-mini caught the bug**  
 - **4o missed it**
